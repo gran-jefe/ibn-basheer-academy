@@ -54,12 +54,13 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
 
   const whatsappMessage = encodeURIComponent(
     'السلام عليكم ورحمة الله وبركاته\n' +
-      'أرغب في التسجيل في أكاديمية ابن بشير:\n' +
+      'أرغب في تأكيد التسجيل والرسوم في أكاديمية ابن بشير:\n' +
       `الاسم: ${studentName}\n` +
       `البريد: ${email}\n` +
       `الهاتف: ${phone}\n` +
       `المستوى المطلوب: ${levelObj ? levelObj.titleAr : selectedLevel}\n` +
       `المادة الأساسية: ${courseObj ? courseObj.titleAr : selectedCourse}\n` +
+      `حالة الرسوم: أرغب في إتمام الرسوم الدراسية عبر الواتساب\n` +
       `ملاحظات: ${notes || 'لا يوجد'}`,
   );
 
@@ -257,13 +258,19 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
 
           <div>
             <h3 className="text-xl font-extrabold text-fg">
-              {isAr ? 'تم استلام طلبك' : 'Application received'}
+              {isAr ? 'تم استلام طلب الالتحاق بنجاح' : 'Application Registered Successfully'}
             </h3>
             <p className="mt-2 text-sm text-fg-muted max-w-md mx-auto leading-relaxed">
               {isAr
-                ? 'مرحباً بك في أكاديمية ابن بشير. أكّد تسجيلك عبر الواتساب ليصلك رابط الفصل وجدول الحصص.'
-                : 'Welcome to Ibn Basheer Academy. Confirm over WhatsApp to receive your class link and timetable.'}
+                ? 'تم تسجيل طلبك في المنصة. الخطوة التالية هي تأكيد التسجيل واستكمال الرسوم الدراسية عبر محادثة الواتساب المعتمدة لتفعيل حسابك.'
+                : 'Your application has been logged in the system. The final step is confirming your course enrollment and completing tuition dues via WhatsApp.'}
             </p>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-accent-50/80 border border-accent-200/80 max-w-md mx-auto text-xs text-accent-950 font-medium">
+            💳 {isAr
+              ? 'تتم معالجة الرسوم الدراسية وتقديم الإيصالات الرسمية مباشرة عبر محادثة الواتساب مع إدارة الأكاديمية.'
+              : 'All tuition payments & official receipts are handled directly via WhatsApp with the academy bursary.'}
           </div>
 
           <div className="rounded-xl bg-surface-2 ring-1 ring-line px-4 py-3 text-start max-w-md mx-auto">
@@ -292,10 +299,10 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
               href={confirmUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" aria-hidden="true" />
-              <span>{isAr ? 'تأكيد عبر الواتساب' : 'Confirm on WhatsApp'}</span>
+              <span>{isAr ? 'تأكيد التسجيل والرسوم عبر الواتساب' : 'Confirm & Pay Tuition on WhatsApp'}</span>
             </a>
 
             <button

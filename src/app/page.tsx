@@ -13,9 +13,11 @@ import { StudentPortalModal } from '@/components/StudentPortalModal';
 import { TeacherPortalModal } from '@/components/TeacherPortalModal';
 import { AuthModal } from '@/components/AuthModal';
 import { CourseDetailModal } from '@/components/CourseDetailModal';
+import { ClassroomModal } from '@/components/ClassroomModal';
+import { TranscriptModal } from '@/components/TranscriptModal';
 import { usePreferences } from '@/lib/usePreferences';
 import { getCurrentUser, signOut, type UserProfile } from '@/lib/services/authService';
-import type { Course } from '@/lib/data/academyData';
+import type { Course, LiveClass } from '@/lib/data/academyData';
 
 export default function Home() {
   const { lang, setLang, theme, toggleTheme } = usePreferences();
@@ -28,6 +30,8 @@ export default function Home() {
   const [isStudentPortalOpen, setIsStudentPortalOpen] = useState(false);
   const [isTeacherPortalOpen, setIsTeacherPortalOpen] = useState(false);
   const [detailCourse, setDetailCourse] = useState<Course | null>(null);
+  const [activeClassroom, setActiveClassroom] = useState<LiveClass | null>(null);
+  const [isTranscriptOpen, setIsTranscriptOpen] = useState(false);
 
   const [selectedLevelId, setSelectedLevelId] = useState<string | undefined>();
   const [selectedCourseId, setSelectedCourseId] = useState<string | undefined>();
@@ -131,6 +135,24 @@ export default function Home() {
         isOpen={isStudentPortalOpen}
         onClose={() => setIsStudentPortalOpen(false)}
         lang={lang}
+        onEnterClassroom={(cls) => setActiveClassroom(cls)}
+        onOpenTranscript={() => setIsTranscriptOpen(true)}
+      />
+
+      {/* Live Virtual Classroom & Classical Text Reader */}
+      <ClassroomModal
+        isOpen={!!activeClassroom}
+        onClose={() => setActiveClassroom(null)}
+        lang={lang}
+        liveClass={activeClassroom}
+      />
+
+      {/* Official Academic Transcript & Certificate Generator */}
+      <TranscriptModal
+        isOpen={isTranscriptOpen}
+        onClose={() => setIsTranscriptOpen(false)}
+        lang={lang}
+        studentName={user?.fullName || 'Ahmad Ibn Ibrahim'}
       />
 
       {/* Teacher Portal & LMS Grading Dialog */}

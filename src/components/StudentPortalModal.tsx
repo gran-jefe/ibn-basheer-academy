@@ -4,10 +4,11 @@ import React, { useMemo, useState, useEffect } from 'react';
 import {
   AlertCircle, CheckCircle2, Download, ExternalLink, FileText,
   GraduationCap, PlayCircle, Upload, Video, Mic, Square, Play, Pause,
-  Volume2, Sparkles, Send, RefreshCw, Loader2
+  Volume2, Sparkles, Send, RefreshCw, Loader2, Award, BookOpen, Radio
 } from 'lucide-react';
 import {
   MOCK_ANNOUNCEMENTS, MOCK_ASSIGNMENTS, MOCK_LIVE_CLASSES, MOCK_MATERIALS,
+  type LiveClass
 } from '@/lib/data/academyData';
 import { Modal } from '@/components/ui/Modal';
 import { Tabs } from '@/components/ui/Tabs';
@@ -19,6 +20,8 @@ interface StudentPortalModalProps {
   isOpen: boolean;
   onClose: () => void;
   lang: Lang;
+  onEnterClassroom?: (liveClass: LiveClass) => void;
+  onOpenTranscript?: () => void;
 }
 
 type TabId = 'live' | 'materials' | 'assignments' | 'recitation' | 'announcements';
@@ -34,6 +37,8 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
   isOpen,
   onClose,
   lang,
+  onEnterClassroom,
+  onOpenTranscript,
 }) => {
   const isAr = lang === 'ar';
   const [activeTab, setActiveTab] = useState<TabId>('live');
@@ -199,6 +204,23 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
               ))}
             </dl>
           </div>
+
+          {onOpenTranscript && (
+            <div className="mt-4 pt-3 border-t border-line/60 flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs text-fg-muted flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-accent-600" />
+                <span>{isAr ? 'السجل الأكاديمي المعتمد وشهادات الإجازة' : 'Official transcripts & classical Ijāzah credentials'}</span>
+              </span>
+              <button
+                type="button"
+                onClick={onOpenTranscript}
+                className="px-3.5 py-1.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5"
+              >
+                <Award className="w-3.5 h-3.5" />
+                <span>{isAr ? 'كشف الدرجات والشهادة' : 'View Transcript & Certificate'}</span>
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Tab navigation */}
@@ -266,24 +288,33 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
                       </dl>
                     </div>
 
-                    <a
-                      href={cls.meetUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 ${
-                        live
-                          ? 'bg-brand-700 hover:bg-brand-800 text-white shadow-md'
-                          : 'bg-surface-3 hover:bg-brand-700 hover:text-white text-fg'
-                      }`}
-                    >
-                      <Video className="w-4 h-4" aria-hidden="true" />
-                      <span>
-                        {live
-                          ? (isAr ? 'انضم إلى البث المباشر (Google Meet)' : 'Join Live Session (Google Meet)')
-                          : (isAr ? 'فتح رابط الفصل' : 'Open Meeting Room')}
-                      </span>
-                      <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                    </a>
+                    <div className="flex flex-col sm:flex-row items-center gap-2">
+                      {onEnterClassroom && (
+                        <button
+                          type="button"
+                          onClick={() => onEnterClassroom(cls)}
+                          className="w-full py-2.5 px-3 rounded-xl text-xs font-bold bg-brand-700 hover:bg-brand-800 text-white shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                        >
+                          <Radio className="w-3.5 h-3.5 text-danger animate-pulse" />
+                          <span>{isAr ? 'دخول قاعة الدرس والمتن' : 'Enter Virtual Halaqah'}</span>
+                        </button>
+                      )}
+
+                      <a
+                        href={cls.meetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5 ring-1 ${
+                          live
+                            ? 'bg-surface hover:bg-surface-2 text-fg ring-brand-ring'
+                            : 'bg-surface-2 hover:bg-surface-3 text-fg-muted ring-line'
+                        }`}
+                      >
+                        <Video className="w-3.5 h-3.5" aria-hidden="true" />
+                        <span>{live ? (isAr ? 'رابط Google Meet' : 'Direct Meet') : (isAr ? 'رابط الجلسة' : 'Class Link')}</span>
+                        <ExternalLink className="w-3 h-3 opacity-60" />
+                      </a>
+                    </div>
                   </li>
                 );
               })}
