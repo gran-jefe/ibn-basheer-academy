@@ -4,7 +4,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import {
   AlertCircle, CheckCircle2, Download, ExternalLink, FileText,
   GraduationCap, PlayCircle, Upload, Video, Mic, Square, Play, Pause,
-  Volume2, Sparkles, Send, RefreshCw
+  Volume2, Sparkles, Send, RefreshCw, Loader2
 } from 'lucide-react';
 import {
   MOCK_ANNOUNCEMENTS, MOCK_ASSIGNMENTS, MOCK_LIVE_CLASSES, MOCK_MATERIALS,
@@ -13,6 +13,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Tabs } from '@/components/ui/Tabs';
 import { inputClass } from '@/components/ui/form';
 import type { Lang } from '@/lib/usePreferences';
+import { submitRecitation } from '@/lib/services/recitationService';
 
 interface StudentPortalModalProps {
   isOpen: boolean;
@@ -69,10 +70,20 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
   };
 
   const handleTogglePlay = () => {
-    setIsPlaying(!isPlaying);
+    setIsPlaying((prev) => !prev);
   };
 
-  const handleSubmitRecitation = () => {
+  const [isSubmittingRecitation, setIsSubmittingRecitation] = useState(false);
+
+  const handleSubmitRecitation = async () => {
+    setIsSubmittingRecitation(true);
+    await submitRecitation({
+      surahName: 'Al-Mulk',
+      versesRange: '1-5',
+      durationSeconds: recordingTime,
+      audioUrl: 'https://placeholder.supabase.co/recitations/al-mulk-sample.webm',
+    });
+    setIsSubmittingRecitation(false);
     setRecitationSubmitted(true);
   };
 
@@ -576,10 +587,19 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
                       <button
                         type="button"
                         onClick={handleSubmitRecitation}
-                        className="px-6 py-3 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2"
+                        disabled={isSubmittingRecitation}
+                        className="px-6 py-3 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
                       >
-                        <Send className="w-4 h-4" />
-                        <span>{isAr ? 'إرسال التلاوة للشيخ' : 'Submit Recitation to Ustaz'}</span>
+                        {isSubmittingRecitation ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Send className="w-4 h-4" />
+                        )}
+                        <span>
+                          {isSubmittingRecitation
+                            ? (isAr ? 'جاري الإرسال للشيخ...' : 'Submitting to Ustaz...')
+                            : (isAr ? 'إرسال التلاوة للشيخ' : 'Submit Recitation to Ustaz')}
+                        </span>
                       </button>
                     ) : null}
                   </>

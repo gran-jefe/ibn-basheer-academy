@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { ACADEMIC_LEVELS, MAJOR_COURSES, ACADEMY_INFO } from '@/lib/data/academyData';
-import { CheckCircle2, GraduationCap, Mail, MessageCircle, Phone, Send, User } from 'lucide-react';
+import { CheckCircle2, GraduationCap, Mail, MessageCircle, Phone, Send, User, Loader2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import {
   iconInFieldClass, inputClass, inputWithIconClass, labelClass, selectClass,
 } from '@/components/ui/form';
 import type { Lang } from '@/lib/usePreferences';
+import { submitEnrollmentApplication } from '@/lib/services/enrollmentService';
 
 interface EnrollmentModalProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
   const [selectedCourse, setSelectedCourse] = useState('quran');
   const [notes, setNotes] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   /* The selects used to read their pre-selection only once, at mount, so
      clicking a different level card left the form on the previous choice. */
@@ -80,8 +82,18 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
     >
       {!isSubmitted ? (
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
+            setIsSubmitting(true);
+            await submitEnrollmentApplication({
+              fullName: studentName,
+              email,
+              phoneNumber: phone,
+              levelId: selectedLevel,
+              courseId: selectedCourse,
+              notes,
+            });
+            setIsSubmitting(false);
             setIsSubmitted(true);
           }}
           className="p-5 sm:p-6 space-y-5"
@@ -222,10 +234,19 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
 
           <button
             type="submit"
-            className="w-full py-3.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"
+            disabled={isSubmitting}
+            className="w-full py-3.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-75"
           >
-            <Send className="w-4 h-4" aria-hidden="true" />
-            <span>{isAr ? 'إرسال طلب التسجيل' : 'Submit application'}</span>
+            {isSubmitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <Send className="w-4 h-4" aria-hidden="true" />
+            )}
+            <span>
+              {isSubmitting
+                ? (isAr ? 'جاري الإرسال...' : 'Submitting...')
+                : (isAr ? 'إرسال طلب التسجيل' : 'Submit application')}
+            </span>
           </button>
         </form>
       ) : (
