@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import {
-  Check, CheckSquare, FilePlus, PlusCircle, Send, UserCog, Users,
+  Check, CheckSquare, FilePlus, PlusCircle, Send, UserCog, Users, Loader2,
 } from 'lucide-react';
 import { ACADEMIC_LEVELS, MAJOR_COURSES, MOCK_ASSIGNMENTS } from '@/lib/data/academyData';
 import { Modal } from '@/components/ui/Modal';
 import { Tabs } from '@/components/ui/Tabs';
 import { inputClass, labelClass, selectClass } from '@/components/ui/form';
 import type { Lang } from '@/lib/usePreferences';
+import { createAssignment, publishCourseMaterial, gradeRecitation } from '@/lib/services/teacherService';
 
 interface TeacherPortalModalProps {
   isOpen: boolean;
@@ -55,14 +56,61 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
   const [assgPoints, setAssgPoints] = useState('100');
   const [assgDueDate, setAssgDueDate] = useState('');
   const [assgSuccess, setAssgSuccess] = useState(false);
+  const [isCreatingAssg, setIsCreatingAssg] = useState(false);
 
   const [matTitle, setMatTitle] = useState('');
   const [matType, setMatType] = useState<'pdf' | 'audio'>('pdf');
   const [matSuccess, setMatSuccess] = useState(false);
+  const [isPublishingMat, setIsPublishingMat] = useState(false);
 
   /* Grades resolve inline rather than through a blocking alert(). */
   const [grades, setGrades] = useState<Record<string, string>>({});
   const [savedGrades, setSavedGrades] = useState<Record<string, string>>({});
+  const [isGradingId, setIsGradingId] = useState<string | null>(null);
+
+  const handleCreateAssignment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsCreatingAssg(true);
+    await createAssignment({
+      title: assgTitle,
+      levelId: assgLevel,
+      courseId: assgCourse,
+      totalPoints: Number(assgPoints) || 100,
+      dueDate: assgDueDate,
+    });
+    setIsCreatingAssg(false);
+    setAssgSuccess(true);
+    setAssgTitle('');
+    setAssgDueDate('');
+  };
+
+  const handlePublishMaterial = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsPublishingMat(true);
+    await publishCourseMaterial({
+      courseId: assgCourse,
+      title: matTitle,
+      type: matType,
+      sizeOrDuration: matType === 'pdf' ? '2.4 MB' : '38 mins',
+      downloadUrl: 'https://placeholder.supabase.co/materials/sample.pdf',
+    });
+    setIsPublishingMat(false);
+    setMatSuccess(true);
+    setMatTitle('');
+  };
+
+  const handleSaveGrade = async (subId: string, mark: string) => {
+    setIsGradingId(subId);
+    await gradeRecitation({
+      recitationId: subId,
+      score: Number(mark) || 50,
+      feedbackMakharij: 'Makharij clear with proper articulation of throat letters.',
+      feedbackSifat: 'Qalqalah observed correctly.',
+      instructorNotes: 'Excellent effort, recommended to review Ghunnah duration.',
+    });
+    setIsGradingId(null);
+    setSavedGrades((s) => ({ ...s, [subId]: mark }));
+  };
 
   const tabs = [
     {
@@ -130,12 +178,7 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
         {activeTab === 'assignment' && (
           <form
             {...panelProps('assignment')}
-            onSubmit={(e) => {
-              e.preventDefault();
-              setAssgSuccess(true);
-              setAssgTitle('');
-              setAssgDueDate('');
-            }}
+            onSubmit={handleCreateAssignment}
             className={`${cardClass} outline-none`}
           >
             <h3 className="font-bold text-fg">
@@ -243,10 +286,11 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
 
             <button
               type="submit"
-              className="w-full py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"
+              disabled={isCreatingAssg}
+              className="w-full py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <Send className="w-4 h-4" aria-hidden="true" />
-              {isAr ? 'نشر الواجب' : 'Publish assignment'}
+              {isCreatingAssg ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" aria-hidden="true" />}
+              <span>{isCreatingAssg ? (isAr ? 'جاري النشر...' : 'Publishing...') : (isAr ? 'نشر الواجب' : 'Publish assignment')}</span>
             </button>
 
             <p className="text-xs text-fg-subtle text-center">
@@ -261,11 +305,7 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
         {activeTab === 'material' && (
           <form
             {...panelProps('material')}
-            onSubmit={(e) => {
-              e.preventDefault();
-              setMatSuccess(true);
-              setMatTitle('');
-            }}
+            onSubmit={handlePublishMaterial}
             className={`${cardClass} outline-none`}
           >
             <h3 className="font-bold text-fg">
@@ -274,7 +314,7 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
 
             {matSuccess &&
               successNote(
-                isAr ? 'تم رفع المادة التعليمية.' : 'Material uploaded successfully.',
+                isAr ? 'تم رفع المادة التعليمية بنجاح إلى المنصة.' : 'Material uploaded successfully to the academy LMS.',
               )}
 
             <div>
@@ -348,10 +388,11 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
 
             <button
               type="submit"
-              className="w-full py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"
+              disabled={isPublishingMat}
+              className="w-full py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <FilePlus className="w-4 h-4" aria-hidden="true" />
-              {isAr ? 'رفع المادة' : 'Upload to LMS'}
+              {isPublishingMat ? <Loader2 className="w-4 h-4 animate-spin" /> : <FilePlus className="w-4 h-4" aria-hidden="true" />}
+              <span>{isPublishingMat ? (isAr ? 'جاري الرفع للمنصة...' : 'Uploading...') : (isAr ? 'رفع المادة' : 'Upload to LMS')}</span>
             </button>
           </form>
         )}
@@ -416,13 +457,12 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
                         />
                         <button
                           type="button"
-                          disabled={!grades[item.id]}
-                          onClick={() =>
-                            setSavedGrades((s) => ({ ...s, [item.id]: grades[item.id] }))
-                          }
-                          className="px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 disabled:bg-surface-3 disabled:text-fg-subtle disabled:cursor-not-allowed text-white font-bold text-xs transition-colors"
+                          disabled={!grades[item.id] || isGradingId === item.id}
+                          onClick={() => handleSaveGrade(item.id, grades[item.id])}
+                          className="px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 disabled:bg-surface-3 disabled:text-fg-subtle disabled:cursor-not-allowed text-white font-bold text-xs transition-colors flex items-center gap-1.5"
                         >
-                          {isAr ? 'حفظ الدرجة' : 'Save grade'}
+                          {isGradingId === item.id && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                          <span>{isGradingId === item.id ? (isAr ? 'جاري الحفظ...' : 'Saving...') : (isAr ? 'حفظ الدرجة' : 'Save grade')}</span>
                         </button>
                       </div>
                     )}

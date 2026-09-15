@@ -2,17 +2,22 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  BookOpen, Globe, GraduationCap, LogIn, Menu, MessageCircle,
-  Moon, Sun, UserCog, X,
+  BookOpen, Globe, GraduationCap, LogIn, LogOut, Menu, MessageCircle,
+  Moon, Sun, User, UserCog, X,
 } from 'lucide-react';
 import { ACADEMY_INFO } from '@/lib/data/academyData';
 import type { Lang, Theme } from '@/lib/usePreferences';
+
+import type { UserProfile } from '@/lib/services/authService';
 
 interface HeaderProps {
   lang: Lang;
   setLang: (lang: Lang) => void;
   theme: Theme;
   toggleTheme: () => void;
+  user: UserProfile | null;
+  onOpenAuth: () => void;
+  onSignOut: () => void;
   onOpenEnrollment: () => void;
   onOpenStudentPortal: () => void;
   onOpenTeacherPortal: () => void;
@@ -23,6 +28,9 @@ export const Header: React.FC<HeaderProps> = ({
   setLang,
   theme,
   toggleTheme,
+  user,
+  onOpenAuth,
+  onSignOut,
   onOpenEnrollment,
   onOpenStudentPortal,
   onOpenTeacherPortal,
@@ -113,14 +121,38 @@ export const Header: React.FC<HeaderProps> = ({
 
             <div className="hidden lg:block w-px h-6 bg-white/15" aria-hidden="true" />
 
-            <button
-              type="button"
-              onClick={onOpenStudentPortal}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-brand-50 ring-1 ring-white/20 hover:bg-white/10 transition-colors"
-            >
-              <LogIn className="w-4 h-4" aria-hidden="true" />
-              <span>{isAr ? 'دخول الطالب' : 'Student login'}</span>
-            </button>
+            {user ? (
+              <div className="hidden sm:flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={user.role === 'teacher' ? onOpenTeacherPortal : onOpenStudentPortal}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 ring-1 ring-white/20 text-xs font-bold text-brand-50 transition-colors"
+                >
+                  <div className="w-5 h-5 rounded-full bg-accent-400 text-brand-950 flex items-center justify-center font-bold text-[10px]">
+                    {user.role === 'teacher' ? 'U' : 'S'}
+                  </div>
+                  <span className="truncate max-w-[120px]">{user.fullName}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onSignOut}
+                  className="p-2 rounded-lg text-brand-200 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label={isAr ? 'تسجيل الخروج' : 'Sign out'}
+                  title={isAr ? 'تسجيل الخروج' : 'Sign out'}
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenAuth}
+                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-brand-50 ring-1 ring-white/20 hover:bg-white/10 transition-colors"
+              >
+                <LogIn className="w-4 h-4" aria-hidden="true" />
+                <span>{isAr ? 'دخول' : 'Sign in'}</span>
+              </button>
+            )}
 
             <button
               type="button"
@@ -168,6 +200,38 @@ export const Header: React.FC<HeaderProps> = ({
             ))}
 
             <div className="h-px bg-white/10 my-2" aria-hidden="true" />
+
+            {user ? (
+              <div className="p-3 rounded-xl bg-white/10 space-y-2 mb-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-accent-400 text-brand-950 flex items-center justify-center font-bold text-xs">
+                      {user.role === 'teacher' ? 'U' : 'S'}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-white">{user.fullName}</p>
+                      <p className="text-[10px] text-brand-200">{user.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setMenuOpen(false); onSignOut(); }}
+                    className="text-xs text-danger hover:underline font-bold"
+                  >
+                    {isAr ? 'خروج' : 'Sign out'}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => { setMenuOpen(false); onOpenAuth(); }}
+                className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-50 hover:bg-white/10 text-start"
+              >
+                <LogIn className="w-4 h-4" aria-hidden="true" />
+                {isAr ? 'تسجيل الدخول' : 'Sign In'}
+              </button>
+            )}
 
             <button
               type="button"

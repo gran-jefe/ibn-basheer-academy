@@ -9,9 +9,12 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import type { Lang } from '@/lib/usePreferences';
 
+import type { Course } from '@/lib/data/academyData';
+
 interface CoursesSectionProps {
   lang: Lang;
   onSelectCourse: (courseId: string) => void;
+  onViewDetails: (course: Course) => void;
 }
 
 const ICONS: Record<string, LucideIcon> = {
@@ -31,6 +34,7 @@ const FILTERS = [
 export const CoursesSection: React.FC<CoursesSectionProps> = ({
   lang,
   onSelectCourse,
+  onViewDetails,
 }) => {
   const isAr = lang === 'ar';
   const [filter, setFilter] = useState('all');
@@ -160,20 +164,29 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
                 </div>
 
                 {/* Footer Bar */}
-                <div className="mt-6 pt-4 border-t border-line flex items-center justify-between gap-3">
+                <div className="mt-6 pt-4 border-t border-line flex flex-wrap items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5 text-xs font-medium text-fg-muted min-w-0">
                     <User className="w-3.5 h-3.5 shrink-0 text-fg-subtle" aria-hidden="true" />
-                    <span className="truncate">{course.instructor}</span>
+                    <span className="truncate max-w-[100px]">{course.instructor}</span>
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() => onSelectCourse(course.id)}
-                    className="shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold text-brand-ink ring-1 ring-brand-ring hover:bg-brand-700 hover:text-white hover:ring-brand-700 transition-colors flex items-center gap-1.5"
-                  >
-                    <Check className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{isAr ? 'سجّل في المادة' : 'Enroll'}</span>
-                  </button>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => onViewDetails(course)}
+                      className="px-3 py-1.5 rounded-xl text-xs font-bold text-fg-muted bg-surface-2 hover:bg-surface-3 ring-1 ring-line hover:text-fg transition-colors"
+                    >
+                      {isAr ? 'المنهج والمتن' : 'Syllabus'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onSelectCourse(course.id)}
+                      className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-brand-700 hover:bg-brand-800 transition-colors flex items-center gap-1.5 shadow-xs"
+                    >
+                      <Check className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span>{isAr ? 'سجّل' : 'Enroll'}</span>
+                    </button>
+                  </div>
                 </div>
               </li>
             );

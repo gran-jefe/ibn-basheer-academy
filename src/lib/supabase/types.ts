@@ -141,8 +141,17 @@ export interface Database {
           download_url: string;
           uploaded_at: string;
         };
-        Insert: Database['public']['Tables']['course_materials']['Row'];
-        Update: Partial<Database['public']['Tables']['course_materials']['Row']>;
+        Insert: {
+          id?: string;
+          course_id: string;
+          title_en: string;
+          title_ar: string;
+          type: MaterialType;
+          size_or_duration: string;
+          download_url: string;
+          uploaded_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['course_materials']['Insert']>;
         Relationships: [];
       };
       assignments: {
@@ -158,8 +167,19 @@ export interface Database {
           due_date: string;
           created_at: string;
         };
-        Insert: Database['public']['Tables']['assignments']['Row'];
-        Update: Partial<Database['public']['Tables']['assignments']['Row']>;
+        Insert: {
+          id?: string;
+          course_id: string;
+          level_id?: string | null;
+          title_en: string;
+          title_ar: string;
+          description_en?: string | null;
+          description_ar?: string | null;
+          total_points: number;
+          due_date: string;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['assignments']['Insert']>;
         Relationships: [];
       };
       submissions: {
