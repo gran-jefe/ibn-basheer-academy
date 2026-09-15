@@ -176,8 +176,11 @@ export const Hero: React.FC<HeroProps> = ({
                 </dl>
 
                 <div className="flex items-center gap-3 pt-1">
-                  <div className="w-10 h-10 rounded-full bg-brand-700 text-accent-300 font-display font-bold flex items-center justify-center shrink-0">
-                    أ
+                  <div
+                    className="w-10 h-10 rounded-full bg-brand-700 text-accent-300 font-display font-bold flex items-center justify-center shrink-0"
+                    aria-hidden="true"
+                  >
+                    {isAr ? 'أ' : 'A'}
                   </div>
                   <div className="min-w-0">
                     <p className="text-[11px] font-bold uppercase tracking-wide text-fg-subtle">

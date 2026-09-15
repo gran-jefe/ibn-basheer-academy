@@ -38,7 +38,7 @@ export const InstructorSection: React.FC<InstructorSectionProps> = ({ lang }) =>
                 className="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-brand-700 text-accent-300 font-display font-bold text-5xl flex items-center justify-center ring-2 ring-accent-500/40"
                 aria-hidden="true"
               >
-                أ
+                {isAr ? 'أ' : 'A'}
               </div>
               <h3 className="mt-5 text-xl font-bold">
                 {isAr ? instructor.nameAr : instructor.nameEn}
