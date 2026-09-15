@@ -67,8 +67,8 @@
   --color-info-fg:      var(--info-fg);
 
   /* --- Type --- */
-  --font-sans: var(--font-tajawal), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-amiri), var(--font-tajawal), Georgia, "Traditional Arabic", serif;
+  --font-sans: var(--font-tajawal, 'Tajawal'), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-amiri, 'Amiri'), var(--font-tajawal, 'Tajawal'), Georgia, "Traditional Arabic", serif;
 
   /* --- Motion --- */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);

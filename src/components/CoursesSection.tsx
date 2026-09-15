@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { MAJOR_COURSES } from '@/lib/data/academyData';
 import {
   BookOpen, Calculator, Check, CheckCheck, Compass, Heart, History,
-  Languages, Mic, Scale, ScrollText, User,
+  Languages, Mic, Scale, ScrollText, User, BookmarkCheck, Sparkles
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { Lang } from '@/lib/usePreferences';
@@ -14,20 +14,18 @@ interface CoursesSectionProps {
   onSelectCourse: (courseId: string) => void;
 }
 
-/* One icon treatment for every subject. The previous ten-colour icon set made
-   decoration compete with the status colours used elsewhere in the LMS. */
 const ICONS: Record<string, LucideIcon> = {
   BookOpen, Mic, Languages, Compass, Scale, ScrollText,
   CheckCheck, History, Calculator, Heart,
 };
 
 const FILTERS = [
-  { id: 'all', labelAr: 'جميع المواد', labelEn: 'All subjects' },
+  { id: 'all', labelAr: 'جميع المواد', labelEn: 'All Subjects' },
   { id: 'tamheediy', labelAr: 'التمهيدي', labelEn: 'Preparatory' },
   { id: 'ibtidaiyya', labelAr: 'الابتدائية', labelEn: 'Primary' },
-  { id: 'idadiyya', labelAr: 'الإعدادية', labelEn: 'Junior sec.' },
-  { id: 'thanawiyya', labelAr: 'الثانوية', labelEn: 'Senior sec.' },
-  { id: 'tejweed-class', labelAr: 'دورة التجويد', labelEn: 'Tejweed' },
+  { id: 'idadiyya', labelAr: 'الإعدادية', labelEn: 'Junior Sec.' },
+  { id: 'thanawiyya', labelAr: 'الثانوية', labelEn: 'Senior Sec.' },
+  { id: 'tejweed-class', labelAr: 'دورة التجويد', labelEn: 'Tejweed Track' },
 ];
 
 export const CoursesSection: React.FC<CoursesSectionProps> = ({
@@ -43,29 +41,29 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
       : MAJOR_COURSES.filter((c) => c.levelIds.includes(filter));
 
   return (
-    <section id="courses" className="py-16 sm:py-20 bg-motif-soft border-y border-line">
+    <section id="courses" className="py-16 sm:py-24 bg-motif-soft border-y border-line">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <header className="max-w-2xl mb-10">
+        <header className="max-w-3xl mb-12">
           <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-ink">
             <BookOpen className="w-4 h-4" aria-hidden="true" />
-            {isAr ? 'المنهج الدراسي' : 'Curriculum'}
+            {isAr ? 'المنهج الدراسي والمتون المعتمدة' : 'Curriculum & Classical Texts'}
           </p>
           <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold tracking-tight text-fg text-balance">
-            {isAr ? 'المواد العشر الرئيسية' : 'The ten core subjects'}
+            {isAr ? 'المواد العشر الرئيسية' : 'The 10 Core Academic Subjects'}
           </h2>
-          <p className="mt-3 text-fg-muted leading-relaxed">
+          <p className="mt-3 text-fg-muted text-base leading-relaxed">
             {isAr
-              ? 'منهج علمي رصين يشمل أصول العلوم الشرعية واللغة العربية، مع تطبيقات عملية واختبارات دورية.'
-              : 'A rigorous curriculum spanning the Islamic sciences and Arabic linguistics, with practical work and periodic assessment.'}
+              ? 'منهج علمي رصين مبني على تدريس أمهات المتون الإسلامية واللغوية، مع شروحات تأصيلية وتطبيقات عملية واختبارات دورية.'
+              : 'A rigorous seminary curriculum anchored in authoritative classical texts (Mutūn), detailed commentary, practical exercises, and periodic assessments.'}
           </p>
         </header>
 
-        {/* Filters */}
+        {/* Level Filters */}
         <div
           role="group"
           aria-label={isAr ? 'تصفية المواد حسب المستوى' : 'Filter subjects by level'}
-          className="flex flex-wrap gap-2 mb-8"
+          className="flex flex-wrap gap-2 mb-10"
         >
           {FILTERS.map((tab) => {
             const active = filter === tab.id;
@@ -80,9 +78,9 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
                 type="button"
                 onClick={() => setFilter(tab.id)}
                 aria-pressed={active}
-                className={`px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2 ${
                   active
-                    ? 'bg-brand-700 text-white'
+                    ? 'bg-brand-700 text-white shadow-md'
                     : 'bg-surface text-fg-muted ring-1 ring-line hover:text-fg hover:ring-brand-ring'
                 }`}
               >
@@ -99,37 +97,70 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
           })}
         </div>
 
-        {/* Grid */}
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Courses Grid */}
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => {
             const Icon = ICONS[course.iconName] ?? BookOpen;
 
             return (
               <li
                 key={course.id}
-                className="group flex flex-col rounded-2xl bg-surface p-6 ring-1 ring-line hover:ring-brand-ring shadow-sm hover:shadow-lg transition-all duration-200"
+                className="group flex flex-col rounded-3xl bg-surface p-6 sm:p-7 ring-1 ring-line hover:ring-brand-ring shadow-sm hover:shadow-xl transition-all duration-200 justify-between"
               >
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-11 h-11 rounded-xl bg-brand-tint text-brand-ink ring-1 ring-brand-ring flex items-center justify-center group-hover:bg-brand-700 group-hover:text-white group-hover:ring-brand-700 transition-colors">
-                    <Icon className="w-[22px] h-[22px]" aria-hidden="true" />
+                <div>
+                  {/* Top Bar: Icon + Number */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-brand-tint text-brand-ink ring-1 ring-brand-ring flex items-center justify-center group-hover:bg-brand-700 group-hover:text-white group-hover:ring-brand-700 transition-colors">
+                      <Icon className="w-6 h-6" aria-hidden="true" />
+                    </div>
+                    <span className="tabular text-xs font-black text-fg-subtle bg-surface-2 px-2.5 py-1 rounded-full ring-1 ring-line">
+                      #{String(course.number).padStart(2, '0')}
+                    </span>
                   </div>
-                  <span className="tabular text-xs font-extrabold text-fg-subtle">
-                    {String(course.number).padStart(2, '0')}
-                  </span>
+
+                  {/* Course Titles */}
+                  <h3 className="text-xl font-bold text-fg leading-snug">
+                    {isAr ? course.titleAr : course.titleEn}
+                  </h3>
+                  <p className="text-xs font-semibold text-brand-ink mt-0.5">
+                    {isAr ? course.titleEn : course.titleAr}
+                  </p>
+
+                  {/* Classical Text (Matn) Badge */}
+                  {course.primaryTextEn && (
+                    <div className="mt-3.5 p-3 rounded-2xl bg-accent-50/70 border border-accent-200/80 text-xs">
+                      <div className="flex items-center gap-1.5 text-accent-700 font-bold uppercase tracking-wider text-[10px] mb-1">
+                        <BookmarkCheck className="w-3.5 h-3.5" />
+                        <span>{isAr ? 'المتن المعتمد للدراسة' : 'Authoritative Classical Text'}</span>
+                      </div>
+                      <p className="font-semibold text-fg text-xs">
+                        {isAr ? course.primaryTextAr : course.primaryTextEn}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Course Description */}
+                  <p className="mt-3.5 text-sm text-fg-muted leading-relaxed">
+                    {isAr ? course.descriptionAr : course.descriptionEn}
+                  </p>
+
+                  {/* Core Topics Checklist */}
+                  {course.keyTopicsEn && (
+                    <div className="mt-4 pt-3 border-t border-line/60">
+                      <ul className="space-y-1.5 text-xs text-fg-muted">
+                        {(isAr ? course.keyTopicsAr : course.keyTopicsEn)?.slice(0, 3).map((topic, i) => (
+                          <li key={i} className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-accent-500 shrink-0" />
+                            <span className="truncate">{topic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
-                <h3 className="text-lg font-bold text-fg leading-snug">
-                  {isAr ? course.titleAr : course.titleEn}
-                </h3>
-                <p className="text-xs font-semibold text-brand-ink mt-1">
-                  {isAr ? course.titleEn : course.titleAr}
-                </p>
-
-                <p className="mt-3 text-sm text-fg-muted leading-relaxed clamp-3 flex-1">
-                  {isAr ? course.descriptionAr : course.descriptionEn}
-                </p>
-
-                <div className="mt-5 pt-4 border-t border-line flex items-center justify-between gap-3">
+                {/* Footer Bar */}
+                <div className="mt-6 pt-4 border-t border-line flex items-center justify-between gap-3">
                   <span className="flex items-center gap-1.5 text-xs font-medium text-fg-muted min-w-0">
                     <User className="w-3.5 h-3.5 shrink-0 text-fg-subtle" aria-hidden="true" />
                     <span className="truncate">{course.instructor}</span>
@@ -138,10 +169,10 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectCourse(course.id)}
-                    className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold text-brand-ink ring-1 ring-brand-ring hover:bg-brand-700 hover:text-white hover:ring-brand-700 transition-colors flex items-center gap-1.5"
+                    className="shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold text-brand-ink ring-1 ring-brand-ring hover:bg-brand-700 hover:text-white hover:ring-brand-700 transition-colors flex items-center gap-1.5"
                   >
                     <Check className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{isAr ? 'سجّل' : 'Enroll'}</span>
+                    <span>{isAr ? 'سجّل في المادة' : 'Enroll'}</span>
                   </button>
                 </div>
               </li>
@@ -151,7 +182,7 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
 
         {courses.length === 0 && (
           <p className="text-center text-fg-muted py-12">
-            {isAr ? 'لا توجد مواد في هذا المستوى.' : 'No subjects in this level.'}
+            {isAr ? 'لا توجد مواد مسجلة في هذا المستوى حالياً.' : 'No subjects currently listed under this level.'}
           </p>
         )}
       </div>

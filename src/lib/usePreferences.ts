@@ -25,18 +25,20 @@ const write = (key: string, value: string) => {
 };
 
 /**
- * Language + theme, kept in sync with <html lang/dir/data-theme> and
- * localStorage. The inline script in layout.tsx applies the saved values
- * before paint; this hook re-reads them after hydration so server and client
- * markup never disagree.
+ * Language + theme, kept in sync with <html lang/dir/data-theme> and localStorage.
+ * Default is English-first ('en') with instant toggle to Arabic ('ar').
  */
 export function usePreferences() {
-  const [lang, setLangState] = useState<Lang>('ar');
+  const [lang, setLangState] = useState<Lang>('en');
   const [theme, setThemeState] = useState<Theme>('light');
 
   useEffect(() => {
     const storedLang = read(LANG_KEY);
-    if (storedLang === 'ar' || storedLang === 'en') setLangState(storedLang);
+    if (storedLang === 'ar' || storedLang === 'en') {
+      setLangState(storedLang);
+    } else {
+      setLangState('en');
+    }
 
     const storedTheme = read(THEME_KEY);
     if (storedTheme === 'light' || storedTheme === 'dark') {

@@ -1,27 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Amiri, Tajawal } from "next/font/google";
 import "./globals.css";
-
-/* Tajawal carries both Arabic and Latin, so the UI keeps one voice in either
-   language. Amiri is reserved for display / Qur'anic lines. */
-const tajawal = Tajawal({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "700", "800"],
-  variable: "--font-tajawal",
-  display: "swap",
-});
-
-const amiri = Amiri({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-amiri",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
-    default: "أكاديمية ابن بشير للدراسات العربية والإسلامية | Ibn Basheer Academy",
+    default: "Ibn Basheer Academy for Arabic & Islamic Studies | أكاديمية ابن بشير",
     template: "%s | Ibn Basheer Academy",
   },
   description:
@@ -43,8 +25,8 @@ export const viewport: Viewport = {
   ],
 };
 
-/* Runs before paint so a returning student never sees a light flash
-   before their saved theme/language is applied. */
+/* Runs before paint so returning students receive their saved preferences
+   immediately without flash. Defaults to English ('en') and LTR. */
 const bootstrapPreferences = `
 (function () {
   try {
@@ -52,7 +34,7 @@ const bootstrapPreferences = `
     if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', t);
 
-    var l = localStorage.getItem('ib-lang') || 'ar';
+    var l = localStorage.getItem('ib-lang') || 'en';
     document.documentElement.lang = l;
     document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
   } catch (e) {}
@@ -66,13 +48,19 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="ar"
-      dir="rtl"
+      lang="en"
+      dir="ltr"
       data-theme="light"
-      className={`${tajawal.variable} ${amiri.variable} h-full`}
+      className="h-full antialiased"
       suppressHydrationWarning
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@300;400;500;700;800&display=swap"
+          rel="stylesheet"
+        />
         <script dangerouslySetInnerHTML={{ __html: bootstrapPreferences }} />
       </head>
       <body className="min-h-full flex flex-col bg-paper text-fg font-sans">
@@ -80,7 +68,7 @@ export default function RootLayout({
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-3 focus:start-3 focus:rounded-lg focus:bg-brand-700 focus:px-4 focus:py-2 focus:text-white focus:font-bold"
         >
-          تخطَّ إلى المحتوى / Skip to content
+          Skip to content / تخطَّ إلى المحتوى
         </a>
         {children}
       </body>
