@@ -83,6 +83,67 @@ export interface Material {
   uploadedDate: string;
 }
 
+export interface FacultyMember {
+  id: string;
+  nameAr: string;
+  nameEn: string;
+  titleAr: string;
+  titleEn: string;
+  roleAr: string;
+  roleEn: string;
+  bioAr: string;
+  bioEn: string;
+  specializationAr: string;
+  specializationEn: string;
+  credentialsAr: string[];
+  credentialsEn: string[];
+  sanadCertificationAr?: string;
+  sanadCertificationEn?: string;
+  initials: string;
+  accentColor: string;
+  coursesTaught: string[];
+}
+
+export interface Testimonial {
+  id: string;
+  authorNameAr: string;
+  authorNameEn: string;
+  roleAr: string;
+  roleEn: string;
+  category: 'parent' | 'student' | 'graduate';
+  countryAr: string;
+  countryEn: string;
+  quoteAr: string;
+  quoteEn: string;
+  rating: number;
+  highlightAr: string;
+  highlightEn: string;
+}
+
+export interface TuitionPlan {
+  id: string;
+  levelId: string;
+  titleAr: string;
+  titleEn: string;
+  taglineAr: string;
+  taglineEn: string;
+  termFee: string;
+  billingPeriodAr: string;
+  billingPeriodEn: string;
+  featuresAr: string[];
+  featuresEn: string[];
+  isPopular?: boolean;
+}
+
+export interface AdmissionFAQ {
+  id: string;
+  questionAr: string;
+  questionEn: string;
+  answerAr: string;
+  answerEn: string;
+  category: 'admissions' | 'academics' | 'tuition' | 'schedule';
+}
+
 export const ACADEMY_INFO = {
   nameAr: 'أكاديمية ابن بشير للدراسات العربية والإسلامية',
   nameEn: 'Ibn Basheer Academy for Arabic & Islamic Studies',
@@ -550,5 +611,311 @@ export const MOCK_ANNOUNCEMENTS: Announcement[] = [
     contentAr: 'ستجرى الاختبارات الشفهية والتحريرية نهاية الأسبوع القادم.',
     contentEn: 'Oral and written assessments will take place next weekend.',
     category: 'exam'
+  }
+];
+
+export const FACULTY_MEMBERS: FacultyMember[] = [
+  {
+    id: 'ustaz-mubaarak',
+    nameAr: 'الشيخ أبو عبد الله المبارك',
+    nameEn: 'Ustaz Abu Abdullah Al-Mubaarak',
+    titleAr: 'المشرف العام والمدرس الأول',
+    titleEn: 'Academy Director & Senior Scholar',
+    roleAr: 'أستاذ التجويد والقراءات والفقه المقارن',
+    roleEn: 'Chair of Tajwīd, Qirā’āt & Comparative Fiqh',
+    bioAr: 'فقيه ومقرئ متصل السند، كرس أكثر من عقد ونصف في تدريس المتون الشرعية وتحفيظ القرآن بروايتي حفص وشعبة. قاد المئات من طلبة العلم نحو نيل الإجازات العلمية المعتمدة وتأسيس الحلقات العلمية.',
+    bioEn: 'Senior jurist and certified reciter with connected chains of transmission (Isnād). Over 15 years dedicated to teaching classical Islamic texts, Quranic recitation, and guiding students to formal academic mastery and certification.',
+    specializationAr: 'علوم القرآن، القراءات المتواترة، الفقه وأصوله',
+    specializationEn: 'Quranic Sciences, Recitation Isnād, Classical Jurisprudence',
+    credentialsAr: [
+      'إجازة مسندة برواية حفص عن عاصم من طريق الشاطبية',
+      'إجازة في شرح ودراسة تحفة الأطفال والمقدمة الجزرية',
+      'إشراف وتدريس لأكثر من ٤٥٠ طالب علم حول العالم',
+      'أستاذ كرسي الفقه والفرائض بأكاديمية ابن بشير'
+    ],
+    credentialsEn: [
+      'Authenticated Isnād in Hafs ‘an ‘Asim via the Shatibiyyah pathway',
+      'Certified Licensure in Tuḥfat al-Aṭfāl & Al-Muqaddimah Al-Jazariyyah',
+      '15+ Years Direct Seminary Teaching across West Africa & Diaspora',
+      'Supervising Dean of Jurisprudence & Inheritance Studies'
+    ],
+    sanadCertificationAr: 'إسناد متصل إلى النبي ﷺ في تلاوة القرآن الكريم وتدريس المتون',
+    sanadCertificationEn: 'Connected Isnād to the Prophet ﷺ in Quranic recitation and classical matn transmission',
+    initials: 'AM',
+    accentColor: 'from-amber-600 to-amber-800',
+    coursesTaught: ['tajweed', 'aqeedah', 'fiqh', 'faraid']
+  },
+  {
+    id: 'dr-sulaiman-bukhari',
+    nameAr: 'د. سليمان البخاري',
+    nameEn: 'Dr. Sulaiman Al-Bukhari',
+    titleAr: 'عميد الدراسات الحديثية',
+    titleEn: 'Dean of Hadith & Prophetic Tradition',
+    roleAr: 'أستاذ مصطلح الحديث والسنن النبوية',
+    roleEn: 'Professor of Hadith Sciences & Isnād Criticism',
+    bioAr: 'دكتوراه في علوم الحديث ومناهج المحدثين، خريج الجامعة الإسلامية بالمدينة المنورة. باحث ومحقق لكتب التراث، متخصص في ضبط الأسانيد وعلل الحديث وشروح الأربعين النووية ورياض الصالحين.',
+    bioEn: 'Ph.D. in Hadith Sciences and Methodology of Muhadditheen, alumnus of the Islamic University of Madinah. Researcher and editor of classical manuscripts specializing in chain criticism, Riyāḍ aṣ-Ṣāliḥīn, and Ar-Arba’īn an-Nawawiyyah.',
+    specializationAr: 'علوم الحديث، مصطلح الحديث، تخريج ودراسة الأسانيد',
+    specializationEn: 'Hadith Sciences, Methodology of Hadith Criticism, Isnād Verification',
+    credentialsAr: [
+      'دكتوراه في علوم الحديث النبوي الشريف',
+      'إجازات عامة في الكتب الستة وموطأ الإمام مالك',
+      'مؤلف لعدة أبحاث محكمة في فقه السيرة ومناهج المحدثين',
+      'عضو هيئة الإشراف الأكاديمي والامتحانات العليا'
+    ],
+    credentialsEn: [
+      'Ph.D. in Hadith & Prophetic Traditions (Islamic Univ. of Madinah)',
+      'General Ijāzāt in the Six Canonical Hadith Compendiums & Muwaṭṭa Mālik',
+      'Author of peer-reviewed works on Prophetic methodology',
+      'Lead Examiner for Academic Level Assessments'
+    ],
+    sanadCertificationAr: 'إجازة سماع ورواية للكتب الستة بأسانيد متصلة',
+    sanadCertificationEn: 'Transmitted authorization (Ijāzat Riwāyah) for the Kutub as-Sittah',
+    initials: 'SB',
+    accentColor: 'from-emerald-600 to-teal-800',
+    coursesTaught: ['hadith', 'aqeedah']
+  },
+  {
+    id: 'ustaz-bilal-mansoor',
+    nameAr: 'الأستاذ بلال بن منصور',
+    nameEn: 'Ustaz Bilal Ibn Mansoor',
+    titleAr: 'رئيس قسم فقه اللغة واللسانيات',
+    titleEn: 'Head of Arabic Philology & Grammar',
+    roleAr: 'مدرس النحو التطبيقي والصرف والبلاغة',
+    roleEn: 'Instructor of Classical Nahw, Sarf & Balāghah',
+    bioAr: 'متخصص متمكن في علوم العربية الفصحى، تميز بأسلوبه التفاعلي في تبسيط قواعد النحو والصرف للناطقين بغيرها، وحفظ وتدريس الآجرومية وقطر الندى وشذور الذهب وألفية ابن مالك.',
+    bioEn: 'Master of Classical Arabic linguistics known for his structured, accessible pedagogy in teaching applied grammar, morphology, and rhetoric. Specialist in Al-Ajrūmiyyah, Qaṭr an-Nadā, and Sharh Ibn ‘Aqīl.',
+    specializationAr: 'النحو والصرف، البلاغة والأدب العربي، الإعراب التطبيقي',
+    specializationEn: 'Classical Arabic Grammar, Morphology, Eloquence & Practical I’rāb',
+    credentialsAr: [
+      'إجازة تدريس متن الآجرومية وملحة الإعراب',
+      'خبرة أكثر من ١٠ سنوات في إكساب الطلاب مهارة النطق والفهم السليم',
+      'مؤلف سلسلة التمارين الإعرابية لطلاب المرحلة المتوسطة'
+    ],
+    credentialsEn: [
+      'Certified Licensure in teaching Al-Ajrūmiyyah & Classical Grammar Matns',
+      '10+ Years experience training non-native and native speakers',
+      'Author of practical I’rāb parsing drill exercises for secondary levels'
+    ],
+    sanadCertificationAr: 'إجازة في متون العربية المتوارثة عن أئمة البصرة والكوفة',
+    sanadCertificationEn: 'Certified teaching authority in foundational classical linguistic texts',
+    initials: 'BM',
+    accentColor: 'from-sky-600 to-indigo-800',
+    coursesTaught: ['arabic']
+  },
+  {
+    id: 'ustazah-umm-kulthum',
+    nameAr: 'الأستاذة أم كلثوم بنت أحمد',
+    nameEn: 'Ustazah Umm Kulthum bint Ahmad',
+    titleAr: 'المشرفة على حلقات الأخوات والناشئة',
+    titleEn: 'Director of Women & Youth Halaqahs',
+    roleAr: 'مقرئة ومعلمة القرآن والتأسيس اللغوي',
+    roleEn: 'Quran Reciter & Child Literacy Specialist',
+    bioAr: 'حافظة لكتاب الله، ذات باع طويل وخبرة تربوية تتجاوز ١٢ عاماً في تعليم الأطفال والفتيات القراءة القرآنية الصحيحة عبر القاعدة النورانية وتجويد اللسان وضبط المخارج والصفات في بيئة وقورة.',
+    bioEn: 'Hafidhah of the Noble Quran with 12+ years of dedicated pedagogical experience nurturing children and women in fluent Quranic literacy, Noorani Qa’idah phonetics, and essential Islamic character.',
+    specializationAr: 'التأسيس القرآني، القاعدة النورانية، تلاوة وتحفيظ الإناث',
+    specializationEn: 'Quranic Phonics, Noorani Literacy, Women & Youth Halaqahs',
+    credentialsAr: [
+      'إجازة في تحفيظ القرآن الكريم وتجويده',
+      'شهادة تدريب معتمدة في تعليم القاعدة النورانية والتهجي',
+      'تدريب وإرشاد أكثر من ٢٠٠ طالبة وطفل في المخارج الصحيحة'
+    ],
+    credentialsEn: [
+      'Certified Quran Reciter with authorization in foundational Tajwīd',
+      'Accredited Master Trainer in Noorani Qa’idah phonetics pedagogy',
+      'Mentored over 200 young learners and female students to fluency'
+    ],
+    sanadCertificationAr: 'إسناد متصل في القرآن الكريم وسند في القاعدة النورانية',
+    sanadCertificationEn: 'Verified pedagogical chain in Quranic recitation and phonetics',
+    initials: 'UK',
+    accentColor: 'from-rose-600 to-purple-800',
+    coursesTaught: ['tajweed', 'aqeedah']
+  }
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: 'test-1',
+    authorNameAr: 'الحاج إبراهيم أديمولا',
+    authorNameEn: 'Alhaji Ibrahim Ademola',
+    roleAr: 'ولي أمر لطالبين في المستوى التمهيدي والابتدائي',
+    roleEn: 'Parent of 2 Students (Tamheediy & Ibtidā’iyya)',
+    category: 'parent',
+    countryAr: 'نيجيريا / لاغوس',
+    countryEn: 'Lagos, Nigeria',
+    quoteAr: 'كنت أبحث طويلاً عن حلقة إلكترونية لا تعتمد على الشكليات وإنما تبني أطفالي بناءً علمياً رصيناً. خلال ٦ أشهر مع أكاديمية ابن بشير، بدأ ابني البالغ من العمر ١١ عاماً يقرأ القرآن بأحكام التجويد السليمة وبفهم واضح لمخارج الحروف. بارك الله في جهود الشيخ والمدرسين.',
+    quoteEn: 'I spent years searching for a virtual academy that wasn’t just surface-level. Within 6 months at Ibn Basheer Academy, my 11-year-old son began reciting with precise Tajwīd and confidence. The discipline and live teacher interaction give parents complete peace of mind.',
+    rating: 5,
+    highlightAr: 'متابعة شخصية ودقة متناهية في التأسيس القرآني للأطفال',
+    highlightEn: 'Personal follow-up and unmatched Quranic foundation for youth'
+  },
+  {
+    id: 'test-2',
+    authorNameAr: 'المهندس فاروق أوبينسيه',
+    authorNameEn: 'Eng. Farooq Obinshe',
+    roleAr: 'مهندس برمجيات وطالب في المرحلة الإعدادية',
+    roleEn: 'Software Engineer & I’dādiyya Student',
+    category: 'student',
+    countryAr: 'المملكة المتحدة / لندن',
+    countryEn: 'London, United Kingdom',
+    quoteAr: 'جدولي المهني مزدحم للغاية في لندن، لكن تنظيم حلقات عطلة نهاية الأسبوع وتوفير التسجيلات والمواد العلمية بصيغة PDF مكنني من دراسة الآجرومية وعلم الفرائض بكل سهولة. هذا ليس مجرد محتوى مسجل، بل شيخ يجيبك ويصحح لك أخطاءك مباشرة.',
+    quoteEn: 'Balancing a demanding software career in London made full-time madrasah impossible. Ibn Basheer Academy’s structured weekend circles and downloadable lecture recordings made classical Nahw and Fiqh accessible. Having an authentic scholar verify your recitations live is priceless.',
+    rating: 5,
+    highlightAr: 'مرونة في الأوقات ومنهج دراسي أصيل يناسب العاملين',
+    highlightEn: 'Flexible schedules and authentic classical pedagogy for professionals'
+  },
+  {
+    id: 'test-3',
+    authorNameAr: 'الدكتورة زينب عبد الله',
+    authorNameEn: 'Dr. Zainab Abdullah',
+    roleAr: 'طبيبة ووالدة لطالبة في حلقة الأخوات',
+    roleEn: 'Physician & Mother of a Female Student',
+    category: 'parent',
+    countryAr: 'الإمارات العربية المتحدة / دبي',
+    countryEn: 'Dubai, UAE',
+    quoteAr: 'أعجبتني البيئة التعليمية المحتشمة والوقورة، وإشراف المعلمات الفاضلات في حلقة الفتيات. ابنتي تشعر بشغف كبير لحضور درس التجويد الأسبوعي والتسميع الشفهي.',
+    quoteEn: 'The respectful, dignified environment and female faculty supervision for sisters gave us immense confidence. My daughter looks forward eagerly to her weekend recitation circle and oral evaluations.',
+    rating: 5,
+    highlightAr: 'بيئة حوارية وقورة وتأطير نسائي متخصص',
+    highlightEn: 'Dignified environment with dedicated female scholarly supervision'
+  },
+  {
+    id: 'test-4',
+    authorNameAr: 'محمد الأمين بلو',
+    authorNameEn: 'Muhammad Al-Amin Bello',
+    roleAr: 'طالب جامعي وحاصل على إجازة تحفة الأطفال',
+    roleEn: 'University Student & Tuḥfat al-Aṭfāl Graduate',
+    category: 'graduate',
+    countryAr: 'نيجيريا / أبوجا',
+    countryEn: 'Abuja, Nigeria',
+    quoteAr: 'أتممت حفظ ودراسة تحفة الأطفال مع الشيخ أبي عبد الله ونلت شهادة إتمام المتن بعد اختبار شفوي دقيق. المنهجية هنا تجمع بين بركة التلقي المباشر ونظام التعليم الحديث.',
+    quoteEn: 'I completed the recitation and explanation of Tuḥfat al-Aṭfāl under Ustaz Abu Abdullah, earning my formal certification after rigorous oral testing. It bridges traditional transmission with modern virtual organization.',
+    rating: 5,
+    highlightAr: 'إجازات علمية موثوقة واختبارات شفهية صارمة',
+    highlightEn: 'Verified academic certifications and rigorous oral assessments'
+  }
+];
+
+export const TUITION_PLANS: TuitionPlan[] = [
+  {
+    id: 'plan-tamheediy',
+    levelId: 'tamheediy',
+    titleAr: 'المستوى التمهيدي (التأسيسي)',
+    titleEn: 'Preparatory Foundation (Tamheediy)',
+    taglineAr: 'للمبتدئين والناشئة — تأسيس الحروف وضبط مخارج التجويد',
+    taglineEn: 'For beginners and youth building authentic Arabic and Tajwīd foundations',
+    termFee: '₦15,000 / $25',
+    billingPeriodAr: 'لكل فصل دراسي (٣ أشهر)',
+    billingPeriodEn: 'Per Academic Term (3 Months)',
+    featuresAr: [
+      'حصتان تفاعليتان أسبوعياً مع المشرفين المباشرين',
+      'حلقات صغيرة لا تتعدى ١٢ طالباً لضمان التسميع الشخصي',
+      'كتب ومذكرات القاعدة النورانية والتجويد بصيغة PDF مجاناً',
+      'وصول كامل للتسجيلات الصفية وبوابة الطالب الإلكترونية',
+      'تقرير تقدم دوري يرسل لأولياء الأمور نهاية كل شهر'
+    ],
+    featuresEn: [
+      '2 Interactive live circles per week with direct faculty',
+      'Small halaqah size (max 12 students) ensuring 1-on-1 recitation',
+      'Free digital workbooks and Noorani Qa’idah study notes (PDF)',
+      'Full access to session video archives and student portal',
+      'Monthly academic progress and attendance reports for parents'
+    ],
+    isPopular: false
+  },
+  {
+    id: 'plan-ibtidaiyya',
+    levelId: 'ibtidaiyya',
+    titleAr: 'المرحلة الابتدائية الشرعية',
+    titleEn: 'Primary Shari’ah (Ibtidā’iyya)',
+    taglineAr: 'البرنامج الأكثر طلباً — دراسة النحو والفقه والعقيدة من المتون',
+    taglineEn: 'Most popular program — Core Arabic grammar, jurisprudence and creed',
+    termFee: '₦20,000 / $35',
+    billingPeriodAr: 'لكل فصل دراسي (٣ أشهر)',
+    billingPeriodEn: 'Per Academic Term (3 Months)',
+    featuresAr: [
+      '٣ حصص أسبوعية تشمل النحو، الفقه الميسر، والعقيدة',
+      'دراسة متني الآجرومية في النحو والأصول الثلاثة',
+      'تطبيقات إعرابية وتدريبات شفهية وتصحيح واجبات أسبوعي',
+      'اختبارات تقييمية نصف فصلية ونهائية مع درجات رسمية',
+      'شهادة اجتياز معتمدة وسجل أكاديمي موثق عند إكمال المرحلة'
+    ],
+    featuresEn: [
+      '3 Live weekly sessions covering Grammar, Fiqh, and Aqeedah',
+      'Structured study of Al-Ajrūmiyyah and Al-Uṣūl ath-Thalāthah',
+      'Weekly practical grammatical parsing (I’rāb) & homework grading',
+      'Mid-term and final written/oral assessments with transcript',
+      'Verified Certificate of Completion upon finishing the stage'
+    ],
+    isPopular: true
+  },
+  {
+    id: 'plan-advanced',
+    levelId: 'thanawiyya',
+    titleAr: 'المرحلة الثانوية والتخصصية',
+    titleEn: 'Advanced & Specialized Seminary',
+    taglineAr: 'للدارسين المتقدمين — الفرائض، مصطلح الحديث، والقراءات',
+    taglineEn: 'For serious seekers — Inheritance math, Hadith science & Advanced Tajwīd',
+    termFee: '₦25,000 / $40',
+    billingPeriodAr: 'لكل فصل دراسي (٣ أشهر)',
+    billingPeriodEn: 'Per Academic Term (3 Months)',
+    featuresAr: [
+      'حلقات نقاش متعمقة في علم الفرائض وقواعد المواريث',
+      'شروح موسعة على متون الحديث ومصطلح المحدثين',
+      'إشراف وإجازات بالسند المتصل للطلبة المتميزين',
+      'ساعات مكتبية مفتوحة للمراجعة والمناقشة مع الشيخ',
+      'سجل درجات أكاديمي رسمي متاح للطباعة من البوابة'
+    ],
+    featuresEn: [
+      'Advanced seminar halaqahs in Islamic Inheritance law (Farā’iḍ)',
+      'In-depth study of Hadith verification & classical commentaries',
+      'Qualification pathway for certified chains of transmission (Isnād)',
+      'Direct faculty office hours for consultation and recitation',
+      'Official verifiable digital academic transcript'
+    ],
+    isPopular: false
+  }
+];
+
+export const ADMISSION_FAQS: AdmissionFAQ[] = [
+  {
+    id: 'faq-1',
+    category: 'admissions',
+    questionAr: 'كيف تتم عملية القبول وما هي المتطلبات الأساسية؟',
+    questionEn: 'How does admission work and what are the prerequisites?',
+    answerAr: 'التسجيل مفتوح للجميع من عمر ٧ سنوات فما فوق. تبدأ العملية بملء استمارة التسجيل الإلكترونية، يتبعها تحديد موعد لمقابلة تقييمية قصيرة (عبر واتساب أو زووم) لتحديد المستوى المناسب للطالب سواء في التأسيس القرآني أو المستويات الشرعية المتقدمة.',
+    answerEn: 'Admission is open to all applicants aged 7 and above. The process begins with submitting an online application, followed by a brief diagnostic assessment (via WhatsApp or Zoom) to place the student in the most suitable level, from beginner phonetics to advanced grammar.'
+  },
+  {
+    id: 'faq-2',
+    category: 'tuition',
+    questionAr: 'كيف يتم سداد الرسوم الدراسية وهل تتوفر خصومات للعائلات؟',
+    questionEn: 'How do I pay tuition fees, and are family discounts available?',
+    answerAr: 'حرصاً على التيسير، يتم سداد الرسوم فصلياً عبر التحويل البنكي المباشر مع تأكيد الإيصال فوراً عبر واتساب مع أمين الصندوق. نقدم خصماً عائلياً بنسبة ١٥٪ للأخ الثاني و٢٥٪ للطفل الثالث المسجلين من نفس الأسرة.',
+    answerEn: 'Tuition is billed per term and processed via transparent bank transfer. Simply confirm your transfer slip via WhatsApp with the academy bursar. We proudly offer a 15% discount for the second child and 25% for the third child enrolled from the same household.'
+  },
+  {
+    id: 'faq-3',
+    category: 'schedule',
+    questionAr: 'ما هي مواعيد الحلقات وهل تتناسب مع أوقات المدارس والعمل؟',
+    questionEn: 'What are the class timings and can they fit around school or work?',
+    answerAr: 'تم تصميم أوقات الحلقات لتلائم الطلاب والمهنيين؛ حيث تعقد حلقات الناشئة والطلاب غالباً في عطلة نهاية الأسبوع (السبت والأحد صباحاً ومساءً)، بينما تعقد حلقات المتقدمين في أوقات مسائية مريحة. بالإضافة إلى ذلك، تسجل جميع الحصص تلقائياً وتكون متاحة للمراجعة على مدار الساعة.',
+    answerEn: 'Schedules are intentionally crafted around modern obligations. Youth and working professionals primarily attend weekend halaqahs (Saturday & Sunday mornings/afternoons), while weekday tracks operate during relaxed evening hours. All live sessions are recorded for 24/7 review.'
+  },
+  {
+    id: 'faq-4',
+    category: 'academics',
+    questionAr: 'هل يحصل الطالب على شهادة أو إجازة معتمدة عند إتمام دراسته؟',
+    questionEn: 'Do students receive recognized certificates or academic credentials?',
+    answerAr: 'نعم، يحصل كل طالب يجتاز الاختبارات الدورية والنهائية بنجاح على شهادة إتمام موثقة برقم تسلسلي وسجل درجات رسمي (Transcript). أما في فصول المتون والتجويد المتقدم، يمنح الطالب المتميز إجازة مسندة بالسند المتصل إلى مؤلف المتن عند استيفاء شروط الحفظ والإتقان.',
+    answerEn: 'Yes. Students successfully passing assessments receive a formal, verifiable Certificate of Completion with an official academic transcript. In advanced Tajwīd and Matn courses, qualifying students can attain an authentic Isnād certification connecting them to classical authors.'
+  },
+  {
+    id: 'faq-5',
+    category: 'academics',
+    questionAr: 'هل توجد حلقات مخصصة للأخوات والفتيات بإشراف معلمات؟',
+    questionEn: 'Are there separate halaqahs for sisters and young girls?',
+    answerAr: 'نعم بكل تأكيد. تخصص الأكاديمية حلقات منفصلة تماماً للأخوات والفتيات الناشئات تشرف عليها معلمات مجازات ومتخصصات في القرآن والعلوم الشرعية لضمان الراحة والوقار التام.',
+    answerEn: 'Yes, absolutely. The academy provides dedicated circles for sisters and young girls supervised entirely by qualified female instructors, ensuring a comfortable, supportive, and dignified learning environment.'
   }
 ];

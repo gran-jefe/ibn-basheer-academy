@@ -7,7 +7,10 @@ import { Hero } from '@/components/Hero';
 import { LevelsSection } from '@/components/LevelsSection';
 import { CoursesSection } from '@/components/CoursesSection';
 import { FeaturesSection } from '@/components/FeaturesSection';
-import { InstructorSection } from '@/components/InstructorSection';
+import { TrustStrip } from '@/components/TrustStrip';
+import { FacultySection } from '@/components/FacultySection';
+import { AdmissionsInfoSection } from '@/components/AdmissionsInfoSection';
+import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { Footer } from '@/components/Footer';
 import { CourseDetailModal } from '@/components/CourseDetailModal';
 import { usePreferences } from '@/lib/usePreferences';
@@ -60,6 +63,7 @@ export default function Home() {
 
       <main id="main" className="flex-1">
         <Hero lang={lang} />
+        <TrustStrip lang={lang} />
         <LevelsSection
           lang={lang}
           onSelectLevel={(levelId) => router.push(`/enroll?level=${encodeURIComponent(levelId)}`)}
@@ -70,7 +74,9 @@ export default function Home() {
           onViewDetails={(course) => setDetailCourse(course)}
         />
         <FeaturesSection lang={lang} />
-        <InstructorSection lang={lang} />
+        <FacultySection lang={lang} />
+        <AdmissionsInfoSection lang={lang} />
+        <TestimonialsSection lang={lang} />
       </main>
 
       <Footer lang={lang} />

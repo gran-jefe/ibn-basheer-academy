@@ -15,8 +15,9 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
   const sections = [
     { href: '#levels', labelAr: 'المستويات الدراسية', labelEn: 'Academic levels' },
     { href: '#courses', labelAr: 'المواد الرئيسية', labelEn: 'Core subjects' },
-    { href: '#features', labelAr: 'مميزات الأكاديمية', labelEn: 'Why study here' },
-    { href: '#instructor', labelAr: 'المدرس الرئيسي', labelEn: 'Lead instructor' },
+    { href: '#faculty', labelAr: 'الهيئة العلمية والمشايخ', labelEn: 'Faculty council' },
+    { href: '#admissions', labelAr: 'الرسوم والقبول', labelEn: 'Admissions & fees' },
+    { href: '#testimonials', labelAr: 'آراء أولياء الأمور', labelEn: 'Parent & student reviews' },
   ];
 
   return (

@@ -50,8 +50,9 @@ export const Header: React.FC<HeaderProps> = ({
   const navLinks = [
     { href: '#levels', labelAr: 'المستويات', labelEn: 'Levels' },
     { href: '#courses', labelAr: 'المواد', labelEn: 'Courses' },
-    { href: '#features', labelAr: 'المميزات', labelEn: 'Why Us' },
-    { href: '#instructor', labelAr: 'المدرس', labelEn: 'Instructor' },
+    { href: '#faculty', labelAr: 'المشايخ', labelEn: 'Faculty' },
+    { href: '#admissions', labelAr: 'الرسوم والقبول', labelEn: 'Admissions & Fees' },
+    { href: '#testimonials', labelAr: 'آراء الطلاب', labelEn: 'Reviews' },
   ];
 
   const iconBtn =
