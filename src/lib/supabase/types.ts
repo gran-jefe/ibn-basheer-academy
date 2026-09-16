@@ -126,8 +126,23 @@ export interface Database {
           status: ClassStatus;
           created_at: string;
         };
-        Insert: Database['public']['Tables']['live_classes']['Row'];
-        Update: Partial<Database['public']['Tables']['live_classes']['Row']>;
+        Insert: {
+          id?: string;
+          title_en: string;
+          title_ar: string;
+          subject_en: string;
+          subject_ar: string;
+          level_id?: string | null;
+          instructor_name: string;
+          day_en: string;
+          day_ar: string;
+          time_en: string;
+          time_ar: string;
+          meet_url: string;
+          status?: ClassStatus;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['live_classes']['Insert']>;
         Relationships: [];
       };
       course_materials: {
@@ -256,8 +271,16 @@ export interface Database {
           category: string;
           published_at: string;
         };
-        Insert: Database['public']['Tables']['announcements']['Row'];
-        Update: Partial<Database['public']['Tables']['announcements']['Row']>;
+        Insert: {
+          id?: string;
+          title_en: string;
+          title_ar: string;
+          content_en: string;
+          content_ar: string;
+          category: string;
+          published_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['announcements']['Insert']>;
         Relationships: [];
       };
     };

@@ -4,17 +4,19 @@ import React, { useMemo, useState, useEffect } from 'react';
 import {
   AlertCircle, CheckCircle2, Download, ExternalLink, FileText,
   GraduationCap, PlayCircle, Upload, Video, Mic, Square, Play, Pause,
-  Volume2, Sparkles, Send, RefreshCw, Loader2, Award, BookOpen, Radio
+  Volume2, Sparkles, Send, RefreshCw, Loader2, Award, BookOpen, Radio,
+  ChevronDown, ChevronUp, Music, X
 } from 'lucide-react';
 import {
   MOCK_ANNOUNCEMENTS, MOCK_ASSIGNMENTS, MOCK_LIVE_CLASSES, MOCK_MATERIALS,
-  type LiveClass
+  type LiveClass, type Material
 } from '@/lib/data/academyData';
 import { Modal } from '@/components/ui/Modal';
 import { Tabs } from '@/components/ui/Tabs';
 import { inputClass } from '@/components/ui/form';
 import type { Lang } from '@/lib/usePreferences';
 import { submitRecitation } from '@/lib/services/recitationService';
+import { submitAssignmentSolution } from '@/lib/services/submissionService';
 
 interface StudentPortalModalProps {
   isOpen: boolean;
@@ -44,6 +46,10 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
   const [activeTab, setActiveTab] = useState<TabId>('live');
   const [submitted, setSubmitted] = useState<Record<string, string>>({});
   const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [isSubmittingAssignmentId, setIsSubmittingAssignmentId] = useState<string | null>(null);
+  const [expandedFeedbackId, setExpandedFeedbackId] = useState<string | null>('assg-3');
+  const [materialFilter, setMaterialFilter] = useState<'all' | 'pdf' | 'audio'>('all');
+  const [playingMaterial, setPlayingMaterial] = useState<Material | null>(null);
 
   // Recitation Studio State
   const [isRecording, setIsRecording] = useState(false);
@@ -324,46 +330,143 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
 
         {/* Materials */}
         {activeTab === 'materials' && (
-          <div {...panelProps('materials')} className="space-y-3 outline-none">
-            <ul className="space-y-3">
-              {MOCK_MATERIALS.map((mat) => (
-                <li
-                  key={mat.id}
-                  className="flex items-center justify-between gap-4 rounded-2xl bg-surface p-4 ring-1 ring-line shadow-sm"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center ${
-                        mat.type === 'pdf'
-                          ? 'bg-danger-soft text-danger'
-                          : 'bg-info-soft text-info'
-                      }`}
-                    >
-                      {mat.type === 'pdf'
-                        ? <FileText className="w-5 h-5" aria-hidden="true" />
-                        : <PlayCircle className="w-5 h-5" aria-hidden="true" />}
-                    </div>
+          <div {...panelProps('materials')} className="space-y-4 outline-none">
+            {/* Filter controls */}
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setMaterialFilter('all')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  materialFilter === 'all'
+                    ? 'bg-brand-700 text-white shadow-xs'
+                    : 'bg-surface-2 text-fg-muted hover:bg-surface-3 ring-1 ring-line'
+                }`}
+              >
+                {isAr ? 'الكل (٣)' : 'All Materials (3)'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMaterialFilter('pdf')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  materialFilter === 'pdf'
+                    ? 'bg-brand-700 text-white shadow-xs'
+                    : 'bg-surface-2 text-fg-muted hover:bg-surface-3 ring-1 ring-line'
+                }`}
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>{isAr ? 'مذكرات وملازم PDF' : 'PDF Study Notes'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setMaterialFilter('audio')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  materialFilter === 'audio'
+                    ? 'bg-brand-700 text-white shadow-xs'
+                    : 'bg-surface-2 text-fg-muted hover:bg-surface-3 ring-1 ring-line'
+                }`}
+              >
+                <Music className="w-3.5 h-3.5" />
+                <span>{isAr ? 'تسجيلات صوتية' : 'Audio Lectures'}</span>
+              </button>
+            </div>
 
+            {/* In-Browser Audio Player Bar */}
+            {playingMaterial && (
+              <div className="rounded-2xl p-4 bg-brand-50/80 border border-brand-200 shadow-sm space-y-3 animate-fade-in">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-xl bg-brand-700 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <Music className="w-4 h-4 animate-bounce" />
+                    </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-sm text-fg truncate">
-                        {isAr ? mat.titleAr : mat.titleEn}
+                      <p className="text-xs font-bold text-fg truncate">
+                        {isAr ? playingMaterial.titleAr : playingMaterial.titleEn}
                       </p>
-                      <p className="tabular text-xs text-fg-subtle mt-0.5">
-                        {mat.type.toUpperCase()} · {mat.sizeOrDuration} · <span dir="ltr">{mat.uploadedDate}</span>
+                      <p className="text-[11px] text-brand-ink font-semibold mt-0.5">
+                        {isAr ? 'مشغّل المحاضرات الصوتية المباشر' : 'In-Browser Audio Player'} · {playingMaterial.sizeOrDuration}
                       </p>
                     </div>
                   </div>
-
-                  <a
-                    href={mat.downloadUrl}
-                    download
-                    className="shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold text-brand-ink ring-1 ring-brand-ring hover:bg-brand-700 hover:text-white hover:ring-brand-700 transition-colors flex items-center gap-1.5"
+                  <button
+                    type="button"
+                    onClick={() => setPlayingMaterial(null)}
+                    className="p-1.5 rounded-lg text-fg-subtle hover:text-fg hover:bg-surface-2 transition-colors"
+                    title={isAr ? 'إغلاق المشغل' : 'Close Player'}
                   >
-                    <Download className="w-4 h-4" aria-hidden="true" />
-                    <span>{isAr ? 'تحميل' : 'Download'}</span>
-                  </a>
-                </li>
-              ))}
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <audio
+                  controls
+                  autoPlay
+                  className="w-full h-8"
+                  src={playingMaterial.downloadUrl !== '#' ? playingMaterial.downloadUrl : 'https://cdn.islamic.network/quran/audio/128/ar.alafasy/67.mp3'}
+                />
+              </div>
+            )}
+
+            <ul className="space-y-3">
+              {MOCK_MATERIALS
+                .filter((m) => materialFilter === 'all' || m.type === materialFilter)
+                .map((mat) => (
+                  <li
+                    key={mat.id}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl bg-surface p-4 ring-1 ring-line shadow-sm"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center ${
+                          mat.type === 'pdf'
+                            ? 'bg-danger-soft text-danger'
+                            : 'bg-info-soft text-info'
+                        }`}
+                      >
+                        {mat.type === 'pdf'
+                          ? <FileText className="w-5 h-5" aria-hidden="true" />
+                          : <PlayCircle className="w-5 h-5" aria-hidden="true" />}
+                      </div>
+
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm text-fg truncate">
+                          {isAr ? mat.titleAr : mat.titleEn}
+                        </p>
+                        <p className="tabular text-xs text-fg-subtle mt-0.5">
+                          {mat.type.toUpperCase()} · {mat.sizeOrDuration} · <span dir="ltr">{mat.uploadedDate}</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                      {mat.type === 'audio' && (
+                        <button
+                          type="button"
+                          onClick={() => setPlayingMaterial(mat)}
+                          className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                            playingMaterial?.id === mat.id
+                              ? 'bg-brand-700 text-white shadow-xs'
+                              : 'bg-surface-2 text-fg-muted hover:bg-surface-3 ring-1 ring-line'
+                          }`}
+                        >
+                          <Play className="w-3.5 h-3.5" />
+                          <span>
+                            {playingMaterial?.id === mat.id
+                              ? (isAr ? 'قيد التشغيل...' : 'Playing...')
+                              : (isAr ? 'استماع' : 'Listen')}
+                          </span>
+                        </button>
+                      )}
+
+                      <a
+                        href={mat.downloadUrl}
+                        download
+                        className="px-3.5 py-2 rounded-xl text-xs font-bold text-brand-ink ring-1 ring-brand-ring hover:bg-brand-700 hover:text-white hover:ring-brand-700 transition-colors flex items-center gap-1.5"
+                      >
+                        <Download className="w-4 h-4" aria-hidden="true" />
+                        <span>{isAr ? 'تحميل' : 'Download'}</span>
+                      </a>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
         )}
@@ -379,6 +482,7 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
                 const remaining = daysUntil(assg.dueDate);
                 const overdue = !done && remaining !== null && remaining < 0;
                 const dueSoon = !done && remaining !== null && remaining >= 0 && remaining <= 3;
+                const isSubmittingThis = isSubmittingAssignmentId === assg.id;
 
                 return (
                   <li
@@ -422,21 +526,61 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
                     </div>
 
                     {done ? (
-                      <p className="flex items-start gap-2 rounded-xl bg-success-soft px-4 py-3 text-xs font-semibold text-success-fg">
-                        <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
-                        <span className="min-w-0">
-                          {answer ? (
-                            <>
-                              {isAr ? 'تم التسليم: ' : 'Submitted: '}
-                              <span className="font-normal break-words">{answer}</span>
-                            </>
-                          ) : (
-                            isAr
-                              ? 'تم تصحيح هذا الواجب — راجع ملاحظات المعلم.'
-                              : 'This assignment has been graded — see your instructor feedback.'
-                          )}
-                        </span>
-                      </p>
+                      <div className="space-y-3">
+                        <p className="flex items-start gap-2 rounded-xl bg-success-soft px-4 py-3 text-xs font-semibold text-success-fg">
+                          <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+                          <span className="min-w-0">
+                            {answer ? (
+                              <>
+                                {isAr ? 'تم التسليم بنجاح: ' : 'Submitted successfully: '}
+                                <span className="font-normal break-words">{answer}</span>
+                              </>
+                            ) : (
+                              isAr
+                                ? 'تم تصحيح هذا الواجب — راجع ملاحظات الشيخ أدناه.'
+                                : 'This assignment has been evaluated — see instructor feedback below.'
+                            )}
+                          </span>
+                        </p>
+
+                        {/* Graded Assignment Rubric & Feedback Card */}
+                        {graded && (
+                          <div className="rounded-xl border border-line/70 bg-surface-2/60 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => setExpandedFeedbackId(expandedFeedbackId === assg.id ? null : assg.id)}
+                              className="w-full p-3 flex items-center justify-between text-xs font-bold text-fg hover:bg-surface-2 transition-colors text-start"
+                            >
+                              <div className="flex items-center gap-2">
+                                <Award className="w-4 h-4 text-accent-600 shrink-0" />
+                                <span>{isAr ? 'تقييم وملاحظات المعلم' : 'Instructor Feedback & Evaluation'}</span>
+                                <span className="px-2 py-0.5 rounded bg-success-soft text-success-fg text-[11px] font-bold">
+                                  95 / 100 (A+)
+                                </span>
+                              </div>
+                              {expandedFeedbackId === assg.id ? (
+                                <ChevronUp className="w-4 h-4 text-fg-subtle shrink-0" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-fg-subtle shrink-0" />
+                              )}
+                            </button>
+
+                            {expandedFeedbackId === assg.id && (
+                              <div className="p-3.5 pt-0 border-t border-line/40 space-y-2 text-xs animate-fade-in">
+                                <div className="flex items-center justify-between text-fg-subtle text-[11px] pt-2">
+                                  <span>{isAr ? 'المصحح: الشيخ أبو عبد الله المبارك' : 'Evaluated by: Ustaz Abu Abdullah Al-Mubaarak'}</span>
+                                  <span className="text-success-fg font-semibold">{isAr ? 'درجة الامتياز' : 'High Honors'}</span>
+                                </div>
+                                <p className="text-fg-muted leading-relaxed bg-surface p-3 rounded-lg ring-1 ring-line/50">
+                                  {isAr
+                                    ? '«ما شاء الله، إجابة متقنة ومفصلة. تقسيم الورثة دقيق وتأصيل المسائل صحيح تماماً. بارك الله في فهمك وجدّك.»'
+                                    : '“Māshā’Allāh, very thorough and sound analysis. The distribution of inheritance shares and determination of the base problem (aṣl al-mas’alah) is accurate. Keep up the high standard!”'}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       <div className="pt-1 border-t border-line space-y-2">
                         <label
@@ -461,17 +605,38 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
                                 : 'Type your answer or paste a file link...'
                             }
                             className={inputClass}
+                            disabled={isSubmittingThis}
                           />
                           <button
                             type="button"
-                            onClick={() => {
+                            disabled={isSubmittingThis}
+                            onClick={async () => {
                               const v = (drafts[assg.id] ?? '').trim();
                               if (!v) return;
+                              setIsSubmittingAssignmentId(assg.id);
+                              await submitAssignmentSolution({
+                                assignmentId: assg.id,
+                                studentId: 'student-session',
+                                submissionText: v,
+                              });
                               setSubmitted((s) => ({ ...s, [assg.id]: v }));
+                              setDrafts((d) => {
+                                const next = { ...d };
+                                delete next[assg.id];
+                                return next;
+                              });
+                              setIsSubmittingAssignmentId(null);
                             }}
-                            className="shrink-0 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs shadow transition-colors"
+                            className="shrink-0 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs shadow transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
                           >
-                            {isAr ? 'تسليم الواجب' : 'Submit'}
+                            {isSubmittingThis ? (
+                              <>
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                <span>{isAr ? 'جاري التسليم...' : 'Submitting...'}</span>
+                              </>
+                            ) : (
+                              <span>{isAr ? 'تسليم الواجب' : 'Submit'}</span>
+                            )}
                           </button>
                         </div>
                       </div>
