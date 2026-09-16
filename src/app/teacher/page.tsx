@@ -16,7 +16,7 @@ import {
   type ApplicantRecord, MOCK_APPLICANTS
 } from '@/lib/services/teacherService';
 import { ACADEMIC_LEVELS, MAJOR_COURSES, ACADEMY_INFO, type Course } from '@/lib/data/academyData';
-import { getCurrentUser, signOut, loginAsDemo, type UserProfile } from '@/lib/services/authService';
+import { getCurrentUser, signOut, type UserProfile } from '@/lib/services/authService';
 
 type TabId = 'admissions' | 'grading' | 'assignment' | 'material' | 'announcements';
 
@@ -126,10 +126,6 @@ export default function TeacherPortalPage() {
     router.push('/login');
   };
 
-  const handleDemoSignIn = () => {
-    const demo = loginAsDemo('teacher');
-    setUser(demo);
-  };
 
   const handleApproveApplicant = async (appId: string) => {
     setIsUpdatingApplicantId(appId);
@@ -248,21 +244,19 @@ export default function TeacherPortalPage() {
               </p>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <Link
                 href="/login?redirect=/teacher"
-                className="w-full py-3 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <span>{isAr ? 'تسجيل الدخول بحساب المعلم' : 'Sign In as Faculty / Admin'}</span>
               </Link>
-              <button
-                type="button"
-                onClick={handleDemoSignIn}
-                className="w-full py-3 px-4 rounded-xl bg-surface-2 hover:bg-surface-3 ring-1 ring-line text-xs font-bold text-fg transition-all flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-4 h-4 text-accent-600" />
-                <span>{isAr ? 'دخول فوري للتجربة كالشيخ (نقرة واحدة)' : 'Instant 1-Click Evaluation Ustaz'}</span>
-              </button>
+
+              <p className="text-xs text-fg-subtle pt-2 border-t border-line">
+                {isAr
+                  ? 'يتم إصدار حسابات المشايخ وإدارة الأكاديمية حصرياً من قبل عمادة القبول والتسجيل.'
+                  : 'Faculty and administrative accounts are provisioned exclusively by the academy registry.'}
+              </p>
             </div>
           </div>
         </main>
@@ -426,7 +420,14 @@ export default function TeacherPortalPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-line/60">
-                    {applicants.map((app) => {
+                    {applicants.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="py-10 text-center text-fg-muted text-xs sm:text-sm">
+                          {isAr ? 'لا توجد طلبات قيد جديدة بانتظار المراجعة حالياً.' : 'No enrollment applications pending review.'}
+                        </td>
+                      </tr>
+                    ) : (
+                      applicants.map((app) => {
                       const isPending = app.status === 'pending';
                       const levelObj = ACADEMIC_LEVELS.find((l) => l.id === app.levelId);
                       const levelName = isAr ? levelObj?.titleAr : levelObj?.titleEn;
@@ -483,7 +484,8 @@ export default function TeacherPortalPage() {
                           </td>
                         </tr>
                       );
-                    })}
+                    })
+                  )}
                   </tbody>
                 </table>
               </div>

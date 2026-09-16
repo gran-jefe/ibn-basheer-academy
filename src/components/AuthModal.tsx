@@ -7,7 +7,7 @@ import { Tabs } from '@/components/ui/Tabs';
 import { inputClass, labelClass, selectClass } from '@/components/ui/form';
 import type { Lang } from '@/lib/usePreferences';
 import { ACADEMIC_LEVELS } from '@/lib/data/academyData';
-import { signIn, signUpStudent, loginAsDemo, type UserProfile } from '@/lib/services/authService';
+import { signIn, signUpStudent, type UserProfile } from '@/lib/services/authService';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -91,16 +91,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }, 1200);
   };
 
-  const handleDemoClick = (role: 'student' | 'teacher') => {
-    setError(null);
-    const user = loginAsDemo(role);
-    setSuccessMsg(isAr ? `تم الدخول كـ ${user.fullName}` : `Logged in as ${user.fullName}`);
-    setTimeout(() => {
-      onSuccess?.(user);
-      onClose();
-      setSuccessMsg(null);
-    }, 800);
-  };
 
   const tabs = [
     {
@@ -136,31 +126,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       size="md"
     >
       <div className="space-y-6">
-        {/* Quick Demo Login Shortcuts */}
-        <div className="p-4 rounded-2xl bg-surface-2 ring-1 ring-line/80 space-y-2.5">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-fg-subtle">
-            <Sparkles className="w-3.5 h-3.5 text-accent-500" />
-            <span>{isAr ? 'دخول سريع للتجربة (بدون كلمة مرور):' : 'Instant 1-Click Evaluation:'}</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => handleDemoClick('student')}
-              className="px-3 py-2 rounded-xl bg-surface hover:bg-surface-3 ring-1 ring-line text-xs font-bold text-fg transition-all flex items-center justify-center gap-1.5 shadow-xs"
-            >
-              <UserCheck className="w-3.5 h-3.5 text-accent-600" />
-              <span>{isAr ? 'حساب طالب' : 'Demo Student'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoClick('teacher')}
-              className="px-3 py-2 rounded-xl bg-surface hover:bg-surface-3 ring-1 ring-line text-xs font-bold text-fg transition-all flex items-center justify-center gap-1.5 shadow-xs"
-            >
-              <Shield className="w-3.5 h-3.5 text-brand-600" />
-              <span>{isAr ? 'حساب الشيخ' : 'Demo Ustaz'}</span>
-            </button>
-          </div>
-        </div>
 
         {/* Tab switcher */}
         <Tabs

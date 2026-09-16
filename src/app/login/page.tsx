@@ -4,11 +4,12 @@ import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
-  BookOpen, LogIn, Sparkles, UserCheck, Shield, AlertCircle,
-  CheckCircle2, Loader2, ArrowLeft, ArrowRight, Globe, Sun, Moon
+  BookOpen, LogIn, AlertCircle, CheckCircle2, Loader2,
+  ArrowLeft, ArrowRight, Globe, Sun, Moon, Lock, Mail, MessageCircle
 } from 'lucide-react';
 import { usePreferences } from '@/lib/usePreferences';
-import { signIn, loginAsDemo } from '@/lib/services/authService';
+import { signIn } from '@/lib/services/authService';
+import { ACADEMY_INFO } from '@/lib/data/academyData';
 
 function LoginForm() {
   const router = useRouter();
@@ -48,15 +49,6 @@ function LoginForm() {
     }
 
     setSuccessMsg(isAr ? `مرحباً بك مجدداً، ${user.fullName}!` : `Welcome back, ${user.fullName}!`);
-    setTimeout(() => {
-      routeUser(user.role);
-    }, 800);
-  };
-
-  const handleDemoLogin = (role: 'student' | 'teacher') => {
-    setError(null);
-    const user = loginAsDemo(role);
-    setSuccessMsg(isAr ? `تم تسجيل الدخول كـ ${user.fullName}` : `Signed in as ${user.fullName}`);
     setTimeout(() => {
       routeUser(user.role);
     }, 600);
@@ -111,41 +103,15 @@ function LoginForm() {
               </h1>
               <p className="text-sm text-fg-muted mt-1.5 leading-relaxed">
                 {isAr
-                  ? 'أدخل بيانات حسابك للوصول إلى حلقاتك، التلاوات، والمقررات'
-                  : 'Access your virtual study circles, recitation workbench, and coursework'}
+                  ? 'أدخل بيانات حسابك المعتمد للوصول إلى الحلقات، التلاوات، والمقررات'
+                  : 'Enter your verified credentials to access study circles, recitations, and coursework'}
               </p>
-            </div>
-          </div>
-
-          {/* Quick Demo Login Box */}
-          <div className="p-4 rounded-2xl bg-surface-2 ring-1 ring-line shadow-xs space-y-3">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-fg-subtle">
-              <Sparkles className="w-3.5 h-3.5 text-accent-600" />
-              <span>{isAr ? 'تجربة فورية بنقرة واحدة (بدون كلمة مرور):' : 'Instant 1-Click Evaluation Login:'}</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2.5">
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('student')}
-                className="px-3.5 py-2.5 rounded-xl bg-surface hover:bg-surface-3 ring-1 ring-line text-xs font-bold text-fg transition-all flex items-center justify-center gap-2 shadow-xs"
-              >
-                <UserCheck className="w-4 h-4 text-accent-600" />
-                <span>{isAr ? 'دخول كطالب' : 'Demo Student'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('teacher')}
-                className="px-3.5 py-2.5 rounded-xl bg-surface hover:bg-surface-3 ring-1 ring-line text-xs font-bold text-fg transition-all flex items-center justify-center gap-2 shadow-xs"
-              >
-                <Shield className="w-4 h-4 text-brand-700" />
-                <span>{isAr ? 'دخول كالشيخ' : 'Demo Ustaz'}</span>
-              </button>
             </div>
           </div>
 
           {/* Feedback Alerts */}
           {error && (
-            <div className="p-4 rounded-2xl bg-danger-soft border border-danger/20 text-danger-fg text-xs font-semibold flex items-center gap-2.5">
+            <div className="p-4 rounded-2xl bg-danger-soft border border-danger/20 text-danger-fg text-xs font-semibold flex items-center gap-2.5 animate-shake">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -158,21 +124,26 @@ function LoginForm() {
             </div>
           )}
 
-          {/* Standard Form */}
+          {/* Production Credentials Form */}
           <div className="p-6 sm:p-7 rounded-3xl bg-surface ring-1 ring-line shadow-sm space-y-5">
             <form onSubmit={handleSignIn} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-fg mb-1.5">
                   {isAr ? 'البريد الإلكتروني' : 'Email Address'}
                 </label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student@ibnbasheer.edu"
-                  className="w-full px-4 py-3 rounded-xl bg-surface ring-1 ring-line focus:ring-2 focus:ring-brand-ring outline-none text-sm text-fg placeholder:text-fg-subtle transition-all"
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-fg-subtle">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="student@example.com"
+                    className="w-full ps-10 pe-4 py-3 rounded-xl bg-surface ring-1 ring-line focus:ring-2 focus:ring-brand-ring outline-none text-sm text-fg placeholder:text-fg-subtle transition-all"
+                  />
+                </div>
               </div>
 
               <div>
@@ -181,34 +152,54 @@ function LoginForm() {
                     {isAr ? 'كلمة المرور' : 'Password'}
                   </label>
                 </div>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl bg-surface ring-1 ring-line focus:ring-2 focus:ring-brand-ring outline-none text-sm text-fg placeholder:text-fg-subtle transition-all"
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-fg-subtle">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full ps-10 pe-4 py-3 rounded-xl bg-surface ring-1 ring-line focus:ring-2 focus:ring-brand-ring outline-none text-sm text-fg placeholder:text-fg-subtle transition-all"
+                  />
+                </div>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
+                className="w-full py-3.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2 cursor-pointer"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
-                <span>{loading ? (isAr ? 'جاري التحقق...' : 'Signing in...') : (isAr ? 'دخول إلى الحساب' : 'Sign In')}</span>
+                <span>{loading ? (isAr ? 'جاري التحقق...' : 'Verifying...') : (isAr ? 'تسجيل الدخول' : 'Sign In')}</span>
               </button>
             </form>
 
-            <div className="pt-4 border-t border-line text-center text-xs text-fg-muted">
-              <span>{isAr ? 'طالب جديد لم تسجل بعد؟ ' : 'New to the academy? '}</span>
-              <Link
-                href="/signup"
-                className="font-bold text-brand-ink hover:underline inline-flex items-center gap-1"
-              >
-                <span>{isAr ? 'إنشاء حساب طالب جديد' : 'Register as a Student'}</span>
-              </Link>
+            <div className="pt-4 border-t border-line text-center space-y-2">
+              <p className="text-xs text-fg-muted">
+                <span>{isAr ? 'طالب جديد لم تسجل بعد؟ ' : 'New to the academy? '}</span>
+                <Link
+                  href="/signup"
+                  className="font-bold text-brand-ink hover:underline inline-flex items-center gap-1"
+                >
+                  <span>{isAr ? 'إنشاء حساب طالب' : 'Register a Student Account'}</span>
+                </Link>
+              </p>
+
+              <p className="text-[11px] text-fg-subtle">
+                <span>{isAr ? 'نسيت كلمة المرور؟ ' : 'Forgot your password? '}</span>
+                <a
+                  href={ACADEMY_INFO.contact.whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-brand-ink hover:underline inline-flex items-center gap-1"
+                >
+                  <MessageCircle className="w-3 h-3 text-brand-700" />
+                  <span>{isAr ? 'تواصل مع الدعم الفني عبر واتساب' : 'Contact Support via WhatsApp'}</span>
+                </a>
+              </p>
             </div>
           </div>
 

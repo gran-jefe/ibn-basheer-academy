@@ -15,7 +15,7 @@ import {
   MOCK_LIVE_CLASSES, MOCK_MATERIALS, MOCK_ASSIGNMENTS, MOCK_ANNOUNCEMENTS,
   type LiveClass, type Material
 } from '@/lib/data/academyData';
-import { getCurrentUser, signOut, loginAsDemo, type UserProfile } from '@/lib/services/authService';
+import { getCurrentUser, signOut, type UserProfile } from '@/lib/services/authService';
 import { submitRecitation } from '@/lib/services/recitationService';
 import { submitAssignmentSolution } from '@/lib/services/submissionService';
 
@@ -91,10 +91,6 @@ export default function StudentPortalPage() {
     router.push('/login');
   };
 
-  const handleDemoSignIn = () => {
-    const demo = loginAsDemo('student');
-    setUser(demo);
-  };
 
   const handleStartRecord = () => {
     setRecordingTime(0);
@@ -190,27 +186,26 @@ export default function StudentPortalPage() {
               </p>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <Link
                 href="/login?redirect=/student"
-                className="w-full py-3 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
               >
-                <span>{isAr ? 'تسجيل الدخول إلى حسابك' : 'Sign In with Email & Password'}</span>
+                <span>{isAr ? 'تسجيل الدخول إلى حسابك' : 'Sign In to Student Account'}</span>
               </Link>
-              <button
-                type="button"
-                onClick={handleDemoSignIn}
+
+              <Link
+                href="/signup"
                 className="w-full py-3 px-4 rounded-xl bg-surface-2 hover:bg-surface-3 ring-1 ring-line text-xs font-bold text-fg transition-all flex items-center justify-center gap-2"
               >
-                <Sparkles className="w-4 h-4 text-accent-600" />
-                <span>{isAr ? 'دخول فوري للتجربة كطالب (نقرة واحدة)' : 'Instant 1-Click Evaluation Student'}</span>
-              </button>
+                <span>{isAr ? 'إنشاء حساب طالب جديد' : 'Register New Student Account'}</span>
+              </Link>
             </div>
 
             <p className="text-xs text-fg-subtle pt-2 border-t border-line">
-              {isAr ? 'طالب جديد؟ ' : 'New applicant? '}
+              {isAr ? 'ترغب في التسجيل في أحد المستويات؟ ' : 'Want to join an academic level? '}
               <Link href="/enroll" className="font-bold text-brand-ink hover:underline">
-                {isAr ? 'تقديم طلب قيد جديد' : 'Submit Admission Application'}
+                {isAr ? 'تقديم طلب القيد والقبول' : 'Submit Admission Application'}
               </Link>
             </p>
           </div>
