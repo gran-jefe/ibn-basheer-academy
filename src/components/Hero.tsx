@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   ArrowRight, CalendarClock, CheckCircle2, MessageCircle, Play, Users,
 } from 'lucide-react';
@@ -9,8 +10,8 @@ import type { Lang } from '@/lib/usePreferences';
 
 interface HeroProps {
   lang: Lang;
-  onOpenEnrollment: () => void;
-  onOpenStudentPortal: () => void;
+  onOpenEnrollment?: () => void;
+  onOpenStudentPortal?: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
@@ -78,23 +79,21 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* Actions — one primary, everything else quiet */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                type="button"
-                onClick={onOpenEnrollment}
+              <Link
+                href="/enroll"
                 className="px-6 py-3.5 rounded-xl bg-accent-400 hover:bg-accent-300 text-brand-950 font-bold text-base shadow-lg transition-colors flex items-center gap-2"
               >
                 <span>{isAr ? 'قدّم طلب الانضمام' : 'Apply for admission'}</span>
                 <ArrowRight className="w-[18px] h-[18px] rtl:rotate-180" aria-hidden="true" />
-              </button>
+              </Link>
 
-              <button
-                type="button"
-                onClick={onOpenStudentPortal}
+              <Link
+                href="/student"
                 className="px-5 py-3.5 rounded-xl text-white font-semibold text-base ring-1 ring-white/25 hover:bg-white/10 transition-colors flex items-center gap-2"
               >
                 <Play className="w-[18px] h-[18px]" aria-hidden="true" />
                 <span>{isAr ? 'دخول البوابة' : 'Open the portal'}</span>
-              </button>
+              </Link>
 
               <a
                 href={ACADEMY_INFO.contact.whatsappLink}
@@ -194,19 +193,21 @@ export const Hero: React.FC<HeroProps> = ({
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={onOpenStudentPortal}
-                  className="w-full py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"
+                <Link
+                  href="/student"
+                  className="w-full py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-xs"
                 >
                   <Users className="w-4 h-4" aria-hidden="true" />
-                  {isAr ? 'انضم إلى الحصة' : 'Join the session'}
-                </button>
+                  <span>{isAr ? 'انضم إلى الحصة' : 'Join the session'}</span>
+                </Link>
 
                 <p className="text-xs text-fg-subtle text-center">
                   {isAr
-                    ? 'تحتاج حساباً؟ قدّم طلب الانضمام وسيصلك رابط الدخول.'
-                    : 'No account yet? Apply and your access link will follow.'}
+                    ? 'تحتاج حساباً؟ '
+                    : 'No account yet? '}
+                  <Link href="/enroll" className="font-bold text-brand-ink hover:underline">
+                    {isAr ? 'قدّم طلب الانضمام هنا' : 'Apply for admission here'}
+                  </Link>
                 </p>
               </div>
             </div>

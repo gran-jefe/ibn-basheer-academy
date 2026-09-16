@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import {
   BookOpen, Globe, GraduationCap, LogIn, LogOut, Menu, MessageCircle,
   Moon, Sun, User, UserCog, X,
@@ -16,11 +17,11 @@ interface HeaderProps {
   theme: Theme;
   toggleTheme: () => void;
   user: UserProfile | null;
-  onOpenAuth: () => void;
+  onOpenAuth?: () => void;
   onSignOut: () => void;
-  onOpenEnrollment: () => void;
-  onOpenStudentPortal: () => void;
-  onOpenTeacherPortal: () => void;
+  onOpenEnrollment?: () => void;
+  onOpenStudentPortal?: () => void;
+  onOpenTeacherPortal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -123,16 +124,15 @@ export const Header: React.FC<HeaderProps> = ({
 
             {user ? (
               <div className="hidden sm:flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={user.role === 'teacher' ? onOpenTeacherPortal : onOpenStudentPortal}
+                <Link
+                  href={user.role === 'teacher' ? '/teacher' : '/student'}
                   className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 ring-1 ring-white/20 text-xs font-bold text-brand-50 transition-colors"
                 >
                   <div className="w-5 h-5 rounded-full bg-accent-400 text-brand-950 flex items-center justify-center font-bold text-[10px]">
                     {user.role === 'teacher' ? 'U' : 'S'}
                   </div>
                   <span className="truncate max-w-[120px]">{user.fullName}</span>
-                </button>
+                </Link>
                 <button
                   type="button"
                   onClick={onSignOut}
@@ -144,23 +144,21 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={onOpenAuth}
+              <Link
+                href="/login"
                 className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-brand-50 ring-1 ring-white/20 hover:bg-white/10 transition-colors"
               >
                 <LogIn className="w-4 h-4" aria-hidden="true" />
                 <span>{isAr ? 'دخول' : 'Sign in'}</span>
-              </button>
+              </Link>
             )}
 
-            <button
-              type="button"
-              onClick={onOpenEnrollment}
+            <Link
+              href="/enroll"
               className="px-3.5 py-2 rounded-lg bg-accent-400 hover:bg-accent-300 text-brand-950 text-sm font-bold shadow-sm transition-colors"
             >
               {isAr ? 'سجّل الآن' : 'Enroll'}
-            </button>
+            </Link>
 
             <button
               type="button"
@@ -223,33 +221,33 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={() => { setMenuOpen(false); onOpenAuth(); }}
+              <Link
+                href="/login"
+                onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-50 hover:bg-white/10 text-start"
               >
                 <LogIn className="w-4 h-4" aria-hidden="true" />
-                {isAr ? 'تسجيل الدخول' : 'Sign In'}
-              </button>
+                <span>{isAr ? 'تسجيل الدخول' : 'Sign In'}</span>
+              </Link>
             )}
 
-            <button
-              type="button"
-              onClick={() => { setMenuOpen(false); onOpenStudentPortal(); }}
+            <Link
+              href="/student"
+              onClick={() => setMenuOpen(false)}
               className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-50 hover:bg-white/10 text-start"
             >
               <GraduationCap className="w-4 h-4" aria-hidden="true" />
-              {isAr ? 'بوابة الطالب' : 'Student portal'}
-            </button>
+              <span>{isAr ? 'بوابة الطالب' : 'Student portal'}</span>
+            </Link>
 
-            <button
-              type="button"
-              onClick={() => { setMenuOpen(false); onOpenTeacherPortal(); }}
+            <Link
+              href="/teacher"
+              onClick={() => setMenuOpen(false)}
               className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-50 hover:bg-white/10 text-start"
             >
               <UserCog className="w-4 h-4" aria-hidden="true" />
-              {isAr ? 'بوابة المعلم' : 'Teacher portal'}
-            </button>
+              <span>{isAr ? 'بوابة المعلم' : 'Teacher portal'}</span>
+            </Link>
 
             <a
               href={ACADEMY_INFO.contact.whatsappLink}
@@ -258,7 +256,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-brand-50 hover:bg-white/10"
             >
               <MessageCircle className="w-4 h-4" aria-hidden="true" />
-              {isAr ? 'واتساب' : 'WhatsApp'}
+              <span>{isAr ? 'واتساب' : 'WhatsApp'}</span>
             </a>
           </nav>
         </div>
@@ -281,14 +279,13 @@ export const Header: React.FC<HeaderProps> = ({
               <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
               <span dir="ltr">{ACADEMY_INFO.contact.whatsappNumber}</span>
             </a>
-            <button
-              type="button"
-              onClick={onOpenTeacherPortal}
+            <Link
+              href="/teacher"
               className="flex items-center gap-1.5 hover:text-white transition-colors font-semibold"
             >
               <UserCog className="w-3.5 h-3.5" aria-hidden="true" />
-              {isAr ? 'بوابة المعلم' : 'Teacher portal'}
-            </button>
+              <span>{isAr ? 'بوابة المعلم' : 'Teacher portal'}</span>
+            </Link>
           </div>
         </div>
       </div>
