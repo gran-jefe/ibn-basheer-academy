@@ -17,10 +17,15 @@ import {
   type ApplicantRecord, MOCK_APPLICANTS
 } from '@/lib/services/teacherService';
 
+import { LogOut } from 'lucide-react';
+import type { UserProfile } from '@/lib/services/authService';
+
 interface TeacherPortalModalProps {
   isOpen: boolean;
   onClose: () => void;
   lang: Lang;
+  user?: UserProfile | null;
+  onSignOut?: () => void;
 }
 
 type TabId = 'admissions' | 'grading' | 'assignment' | 'material' | 'announcements';
@@ -63,6 +68,8 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
   isOpen,
   onClose,
   lang,
+  user,
+  onSignOut,
 }) => {
   const isAr = lang === 'ar';
   const [activeTab, setActiveTab] = useState<TabId>('admissions');
@@ -249,12 +256,52 @@ export const TeacherPortalModal: React.FC<TeacherPortalModalProps> = ({
       icon={<UserCog className="w-5 h-5 text-accent-400" aria-hidden="true" />}
       closeLabel={isAr ? 'إغلاق' : 'Close'}
     >
-      <Tabs
-        items={tabs}
-        active={activeTab}
-        onChange={(id) => setActiveTab(id)}
-        label={isAr ? 'أقسام إدارة الأكاديمية' : 'Academy management sections'}
-      />
+      {/* Faculty Info Bar */}
+      <div className="px-5 pt-4">
+        <div className="p-4 rounded-2xl bg-surface-2 ring-1 ring-line flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-brand-800 text-white font-extrabold flex items-center justify-center text-sm shadow-xs">
+              {user?.fullName ? user.fullName.charAt(0).toUpperCase() : 'U'}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-extrabold text-fg">
+                  {user?.fullName || 'Ustaz Abu Abdullah Al-Mubaarak'}
+                </h3>
+                <span className="px-2 py-0.5 rounded-full bg-accent-50 text-accent-800 text-[10px] font-bold ring-1 ring-accent-200">
+                  {isAr ? 'هيئة التدريس والإدارة' : 'Faculty & Admin'}
+                </span>
+              </div>
+              <p className="text-xs text-fg-subtle mt-0.5" dir="ltr">
+                {user?.email || 'ustaz@ibnbasheer.edu'}
+              </p>
+            </div>
+          </div>
+
+          {onSignOut && (
+            <button
+              type="button"
+              onClick={() => {
+                onSignOut();
+                onClose();
+              }}
+              className="px-3 py-1.5 rounded-xl bg-surface hover:bg-surface-3 text-fg-subtle hover:text-danger text-xs font-semibold ring-1 ring-line transition-colors flex items-center gap-1.5 self-start sm:self-auto"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>{isAr ? 'تسجيل الخروج' : 'Sign Out'}</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="px-5 pt-3">
+        <Tabs
+          items={tabs}
+          active={activeTab}
+          onChange={(id) => setActiveTab(id)}
+          label={isAr ? 'أقسام إدارة الأكاديمية' : 'Academy management sections'}
+        />
+      </div>
 
       <div className="p-5 sm:p-6">
 

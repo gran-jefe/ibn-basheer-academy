@@ -14,6 +14,7 @@ interface AuthModalProps {
   onClose: () => void;
   lang: Lang;
   onSuccess?: (user: UserProfile) => void;
+  intendedPortal?: 'student' | 'teacher' | null;
 }
 
 type AuthTab = 'signin' | 'signup';
@@ -23,6 +24,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   lang,
   onSuccess,
+  intendedPortal,
 }) => {
   const isAr = lang === 'ar';
   const [activeTab, setActiveTab] = useState<AuthTab>('signin');
@@ -113,16 +115,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     },
   ];
 
+  const modalTitle = intendedPortal === 'teacher'
+    ? (isAr ? 'تسجيل دخول هيئة التدريس والإدارة' : 'Faculty & Admin Sign In')
+    : intendedPortal === 'student'
+      ? (isAr ? 'تسجيل دخول بوابة الطالب' : 'Student LMS Portal Sign In')
+      : (isAr ? 'بوابة الحسابات — أكاديمية ابن بشير' : 'Account Portal — Ibn Basheer Academy');
+
+  const modalSubtitle = intendedPortal === 'teacher'
+    ? (isAr ? 'يرجى تسجيل الدخول بحساب المعلم للوصول إلى إدارة الدروس والقبول' : 'Please sign in with your instructor credentials to access LMS grading and admissions')
+    : intendedPortal === 'student'
+      ? (isAr ? 'يرجى تسجيل الدخول أو إنشاء حساب طالب لمتابعة الحلقات والتلاوة' : 'Please sign in or create an account to access live classes, recitation studio, and coursework')
+      : (isAr ? 'سجل دخولك لمتابعة المقررات، إرسال التلاوات، وحضور الحلقات المباشرة' : 'Sign in to access your course syllabus, submit recitations, and join live study circles');
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={isAr ? 'بوابة الحسابات — أكاديمية ابن بشير' : 'Account Portal — Ibn Basheer Academy'}
-      subtitle={
-        isAr
-          ? 'سجل دخولك لمتابعة المقررات، إرسال التلاوات، وحضور الحلقات المباشرة'
-          : 'Sign in to access your course syllabus, submit recitations, and join live study circles'
-      }
+      title={modalTitle}
+      subtitle={modalSubtitle}
       size="md"
     >
       <div className="space-y-6">

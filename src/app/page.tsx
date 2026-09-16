@@ -57,15 +57,49 @@ export default function Home() {
     };
   }, []);
 
+  const [intendedPortal, setIntendedPortal] = useState<'student' | 'teacher' | null>(null);
+
   const openEnrollment = (levelId?: string, courseId?: string) => {
     setSelectedLevelId(levelId);
     setSelectedCourseId(courseId);
     setIsEnrollmentOpen(true);
   };
 
+  const handleOpenStudentPortal = () => {
+    if (!user) {
+      setIntendedPortal('student');
+      setIsAuthOpen(true);
+      return;
+    }
+    setIsStudentPortalOpen(true);
+  };
+
+  const handleOpenTeacherPortal = () => {
+    if (!user) {
+      setIntendedPortal('teacher');
+      setIsAuthOpen(true);
+      return;
+    }
+    setIsTeacherPortalOpen(true);
+  };
+
+  const handleAuthSuccess = (loggedUser: UserProfile) => {
+    setUser(loggedUser);
+    setIsAuthOpen(false);
+
+    if (intendedPortal === 'teacher' || loggedUser.role === 'teacher' || loggedUser.role === 'admin') {
+      setIsTeacherPortalOpen(true);
+    } else {
+      setIsStudentPortalOpen(true);
+    }
+    setIntendedPortal(null);
+  };
+
   const handleSignOut = async () => {
     await signOut();
     setUser(null);
+    setIsStudentPortalOpen(false);
+    setIsTeacherPortalOpen(false);
   };
 
   return (
@@ -76,18 +110,21 @@ export default function Home() {
         theme={theme}
         toggleTheme={toggleTheme}
         user={user}
-        onOpenAuth={() => setIsAuthOpen(true)}
+        onOpenAuth={() => {
+          setIntendedPortal(null);
+          setIsAuthOpen(true);
+        }}
         onSignOut={handleSignOut}
         onOpenEnrollment={() => openEnrollment()}
-        onOpenStudentPortal={() => setIsStudentPortalOpen(true)}
-        onOpenTeacherPortal={() => setIsTeacherPortalOpen(true)}
+        onOpenStudentPortal={handleOpenStudentPortal}
+        onOpenTeacherPortal={handleOpenTeacherPortal}
       />
 
       <main id="main" className="flex-1">
         <Hero
           lang={lang}
           onOpenEnrollment={() => openEnrollment()}
-          onOpenStudentPortal={() => setIsStudentPortalOpen(true)}
+          onOpenStudentPortal={handleOpenStudentPortal}
         />
         <LevelsSection
           lang={lang}
@@ -107,9 +144,13 @@ export default function Home() {
       {/* Authentication Dialog */}
       <AuthModal
         isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
+        onClose={() => {
+          setIsAuthOpen(false);
+          setIntendedPortal(null);
+        }}
         lang={lang}
-        onSuccess={(loggedUser) => setUser(loggedUser)}
+        intendedPortal={intendedPortal}
+        onSuccess={handleAuthSuccess}
       />
 
       {/* Course Detail & Classical Matn Syllabus Dialog */}
@@ -135,6 +176,8 @@ export default function Home() {
         isOpen={isStudentPortalOpen}
         onClose={() => setIsStudentPortalOpen(false)}
         lang={lang}
+        user={user}
+        onSignOut={handleSignOut}
         onEnterClassroom={(cls) => setActiveClassroom(cls)}
         onOpenTranscript={() => setIsTranscriptOpen(true)}
       />
@@ -160,6 +203,8 @@ export default function Home() {
         isOpen={isTeacherPortalOpen}
         onClose={() => setIsTeacherPortalOpen(false)}
         lang={lang}
+        user={user}
+        onSignOut={handleSignOut}
       />
     </div>
   );

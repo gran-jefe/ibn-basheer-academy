@@ -5,7 +5,7 @@ import {
   AlertCircle, CheckCircle2, Download, ExternalLink, FileText,
   GraduationCap, PlayCircle, Upload, Video, Mic, Square, Play, Pause,
   Volume2, Sparkles, Send, RefreshCw, Loader2, Award, BookOpen, Radio,
-  ChevronDown, ChevronUp, Music, X
+  ChevronDown, ChevronUp, Music, X, LogOut, User
 } from 'lucide-react';
 import {
   MOCK_ANNOUNCEMENTS, MOCK_ASSIGNMENTS, MOCK_LIVE_CLASSES, MOCK_MATERIALS,
@@ -17,11 +17,14 @@ import { inputClass } from '@/components/ui/form';
 import type { Lang } from '@/lib/usePreferences';
 import { submitRecitation } from '@/lib/services/recitationService';
 import { submitAssignmentSolution } from '@/lib/services/submissionService';
+import type { UserProfile } from '@/lib/services/authService';
 
 interface StudentPortalModalProps {
   isOpen: boolean;
   onClose: () => void;
   lang: Lang;
+  user?: UserProfile | null;
+  onSignOut?: () => void;
   onEnterClassroom?: (liveClass: LiveClass) => void;
   onOpenTranscript?: () => void;
 }
@@ -39,6 +42,8 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
   isOpen,
   onClose,
   lang,
+  user,
+  onSignOut,
   onEnterClassroom,
   onOpenTranscript,
 }) => {
@@ -177,11 +182,47 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({
     >
       <div className="space-y-6">
 
-        {/* Urgent at-a-glance banner */}
+        {/* Student Profile & Summary Banner */}
         <section
           aria-label={isAr ? 'ملخص الحساب' : 'Account summary'}
-          className="rounded-2xl bg-surface-2 ring-1 ring-line p-5"
+          className="rounded-2xl bg-surface-2 ring-1 ring-line p-5 space-y-4"
         >
+          {/* User info bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-line/60">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-brand-700 text-white font-extrabold flex items-center justify-center text-sm shadow-xs">
+                {user?.fullName ? user.fullName.charAt(0).toUpperCase() : 'S'}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-extrabold text-fg">
+                    {user?.fullName || (isAr ? 'طالب العلم' : 'Enrolled Student')}
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 text-[10px] font-bold ring-1 ring-brand-200">
+                    {isAr ? 'حساب نشط' : 'Active Student'}
+                  </span>
+                </div>
+                <p className="text-xs text-fg-subtle mt-0.5" dir="ltr">
+                  {user?.email || 'student@ibnbasheer.edu'}
+                </p>
+              </div>
+            </div>
+
+            {onSignOut && (
+              <button
+                type="button"
+                onClick={() => {
+                  onSignOut();
+                  onClose();
+                }}
+                className="px-3 py-1.5 rounded-xl bg-surface hover:bg-surface-3 text-fg-subtle hover:text-danger text-xs font-semibold ring-1 ring-line transition-colors flex items-center gap-1.5 self-start sm:self-auto"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>{isAr ? 'تسجيل الخروج' : 'Sign Out'}</span>
+              </button>
+            )}
+          </div>
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-fg-subtle">
