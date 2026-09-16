@@ -49,7 +49,7 @@ export const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         {/* Header Summary Banner */}
         <div className="p-5 rounded-3xl bg-surface-2 ring-1 ring-line/80 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-brand-tint text-brand-ink ring-1 ring-brand-ring">
               {isAr ? `المقرر ${course.number} من ١٠` : `Subject ${course.number} of 10`}
             </span>
             <div className="flex items-center gap-1.5 text-xs text-fg-muted">

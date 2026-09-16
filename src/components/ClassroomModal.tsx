@@ -226,7 +226,7 @@ export const ClassroomModal: React.FC<ClassroomModalProps> = ({
 
               {/* Matn Section */}
               <div className="space-y-3 pt-4 border-t border-line">
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-brand-800 bg-brand-50 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-brand-ink bg-brand-tint ring-1 ring-brand-ring px-2.5 py-0.5 rounded-md">
                   {isAr ? 'من متن تحفة الأطفال للشيخ الجمزوري' : 'From Tuḥfat al-Aṭfāl by Imām al-Jamzūrī'}
                 </span>
                 <div className="p-4 rounded-2xl bg-surface-2 ring-1 ring-line/60 space-y-3 text-center" dir="rtl">

@@ -184,7 +184,7 @@ export const TranscriptModal: React.FC<TranscriptModalProps> = ({
                     <span className="block text-[10px] font-bold text-fg-subtle uppercase">
                       {isAr ? 'المعدل التراكمي' : 'Cumulative GPA'}
                     </span>
-                    <span className="text-lg font-black text-brand-700 tabular font-display">
+                    <span className="text-lg font-black text-brand-ink tabular font-display">
                       {gpa} <span className="text-xs text-fg-muted">/ 4.00</span>
                     </span>
                   </div>
@@ -221,14 +221,14 @@ export const TranscriptModal: React.FC<TranscriptModalProps> = ({
                           <div>{isAr ? item.titleAr : item.titleEn}</div>
                           <span className="text-[10px] text-fg-subtle">{item.code}</span>
                         </td>
-                        <td className="py-3 px-3 text-brand-800 font-semibold">
+                        <td className="py-3 px-3 text-brand-ink font-semibold">
                           {isAr ? item.matnAr : item.matnEn}
                         </td>
                         <td className="py-3 px-3 text-center tabular">{item.credits}</td>
                         <td className="py-3 px-3 text-center tabular">{item.assignmentScore}%</td>
                         <td className="py-3 px-3 text-center tabular">{item.recitationScore} / 50</td>
                         <td className="py-3 px-3 text-center">
-                          <span className="px-2 py-0.5 rounded-md font-bold bg-brand-50 text-brand-800 border border-brand-200">
+                          <span className="px-2 py-0.5 rounded-md font-bold bg-brand-tint text-brand-ink ring-1 ring-brand-ring">
                             {item.letterGrade}
                           </span>
                         </td>
@@ -291,7 +291,7 @@ export const TranscriptModal: React.FC<TranscriptModalProps> = ({
 
               {/* Academy Name */}
               <div className="space-y-1">
-                <h3 className="font-display text-lg sm:text-2xl font-extrabold text-brand-900 tracking-wide">
+                <h3 className="font-display text-lg sm:text-2xl font-extrabold text-brand-ink tracking-wide">
                   أكاديمية ابن بشير للدراسات العربية والإسلامية
                 </h3>
                 <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-fg-subtle">
@@ -300,7 +300,7 @@ export const TranscriptModal: React.FC<TranscriptModalProps> = ({
               </div>
 
               {/* Certificate Title Banner */}
-              <div className="inline-block px-6 py-2 rounded-full bg-accent-500/15 border border-accent-400 text-accent-800 text-xs sm:text-sm font-extrabold uppercase tracking-widest">
+              <div className="inline-block px-6 py-2 rounded-full bg-accent-500/15 border border-accent-400 text-accent-700 dark:text-accent-300 text-xs sm:text-sm font-extrabold uppercase tracking-widest">
                 {isAr ? 'شهادة إتمام وتحصيل علمي تأصيلي' : 'Certificate of Scholastic Merit & Classical Attainment'}
               </div>
 
@@ -311,7 +311,7 @@ export const TranscriptModal: React.FC<TranscriptModalProps> = ({
                     ? 'تشهد إدارة الأكاديمية بأن الطالب المكرَّم:'
                     : 'This is to certify that the dedicated student:'}
                 </p>
-                <div className="font-display text-2xl sm:text-3xl font-extrabold text-brand-900 border-b border-accent-300 pb-2">
+                <div className="font-display text-2xl sm:text-3xl font-extrabold text-brand-ink border-b border-accent-300 pb-2">
                   {studentName}
                 </div>
                 <p className="text-fg leading-relaxed">
@@ -336,15 +336,15 @@ export const TranscriptModal: React.FC<TranscriptModalProps> = ({
                 {/* Golden Academy Seal */}
                 <div className="flex flex-col items-center justify-center">
                   <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-accent-400 text-brand-950 flex flex-col items-center justify-center shadow-lg border-4 border-accent-200">
-                    <Sparkles className="w-6 h-6 text-brand-900" />
+                    <Sparkles className="w-6 h-6 text-brand-950" />
                     <span className="text-[8px] font-black uppercase tracking-tighter">VERIFIED</span>
                   </div>
-                  <span className="text-[9px] font-bold text-accent-800 mt-1">SEAL OF ATTAINMENT</span>
+                  <span className="text-[9px] font-bold text-accent-700 dark:text-accent-300 mt-1">SEAL OF ATTAINMENT</span>
                 </div>
 
                 {/* Lead Instructor Signature */}
                 <div className="text-center space-y-1">
-                  <div className="font-display font-bold text-sm text-brand-900">الشيخ أبو عبد الله المبارك</div>
+                  <div className="font-display font-bold text-sm text-brand-ink">الشيخ أبو عبد الله المبارك</div>
                   <div className="w-28 mx-auto h-px bg-fg-subtle" />
                   <span className="text-[10px] font-bold text-fg-subtle uppercase block">
                     {isAr ? 'المدرس والمشرف العام' : 'Lead Instructor'}

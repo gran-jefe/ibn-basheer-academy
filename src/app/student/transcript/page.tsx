@@ -191,7 +191,7 @@ export default function TranscriptPage() {
                   <BookOpen className="w-8 h-8" />
                 </div>
                 <div>
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-brand-950 font-display">
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-fg font-display">
                     {isAr ? 'أكاديمية ابن بشير للدراسات العربية والإسلامية' : 'Ibn Basheer Academy for Arabic & Islamic Studies'}
                   </h1>
                   <p className="text-xs text-brand-ink font-semibold">
@@ -218,7 +218,7 @@ export default function TranscriptPage() {
               </div>
               <div>
                 <span className="text-fg-subtle block">{isAr ? 'المعدل التراكمي (GPA):' : 'Cumulative GPA:'}</span>
-                <span className="font-extrabold text-accent-700 text-base mt-0.5 block tabular">3.82 / 4.00</span>
+                <span className="font-extrabold text-accent-600 dark:text-accent-400 text-base mt-0.5 block tabular">3.82 / 4.00</span>
               </div>
               <div>
                 <span className="text-fg-subtle block">{isAr ? 'الوحدات المنجزة:' : 'Total Credits:'}</span>
@@ -251,7 +251,7 @@ export default function TranscriptPage() {
                       <td className="py-3.5 px-3 text-center font-semibold tabular">{c.credits}</td>
                       <td className="py-3.5 px-3 text-center font-semibold tabular">{c.coursework}/50</td>
                       <td className="py-3.5 px-3 text-center font-semibold tabular">{c.recitation}/50</td>
-                      <td className="py-3.5 px-3 text-center font-extrabold text-accent-700">{c.grade}</td>
+                      <td className="py-3.5 px-3 text-center font-extrabold text-accent-600 dark:text-accent-400">{c.grade}</td>
                       <td className="py-3.5 px-3.5 text-end">
                         <span className="px-2.5 py-1 rounded-md bg-success-soft text-success-fg text-xs font-bold">
                           {isAr ? 'ناجح' : 'Passed'}
@@ -272,7 +272,7 @@ export default function TranscriptPage() {
               </div>
 
               <div className="flex flex-col items-center justify-center">
-                <div className="w-16 h-16 rounded-full border-2 border-dashed border-accent-600/60 flex items-center justify-center p-2 text-center text-[9px] font-bold uppercase tracking-wider text-accent-800 rotate-[-8deg]">
+                <div className="w-16 h-16 rounded-full border-2 border-dashed border-accent-500/60 flex items-center justify-center p-2 text-center text-[9px] font-bold uppercase tracking-wider text-accent-700 dark:text-accent-300 rotate-[-8deg]">
                   <span>Verified Institutional Record</span>
                 </div>
               </div>
@@ -290,7 +290,7 @@ export default function TranscriptPage() {
           <div className="p-8 sm:p-14 rounded-3xl bg-surface ring-4 ring-double ring-accent-500/50 shadow-md space-y-8 text-center print:ring-0 print:shadow-none print:p-4">
             
             <div className="space-y-4">
-              <div className="text-xl sm:text-2xl font-display text-brand-900 font-bold" dir="rtl">
+              <div className="text-xl sm:text-2xl font-display text-fg font-bold" dir="rtl">
                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
               </div>
 
@@ -301,7 +301,7 @@ export default function TranscriptPage() {
               <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-ink font-display tracking-tight">
                 {isAr ? 'شهادة إتمام واجتياز مرحلة علمية' : 'Formal Certificate of Completion & Text Mastery'}
               </h2>
-              <p className="text-xs uppercase tracking-widest text-accent-800 font-bold">
+              <p className="text-xs uppercase tracking-widest text-accent-700 dark:text-accent-300 font-bold">
                 أكاديمية ابن بشير للدراسات العربية والإسلامية
               </p>
             </div>
@@ -314,7 +314,7 @@ export default function TranscriptPage() {
                   : 'Ibn Basheer Academy hereby certifies that the student:'}
               </p>
 
-              <div className="py-2 text-2xl sm:text-3xl font-extrabold text-brand-900 font-display border-b-2 border-dashed border-accent-600/40 inline-block px-8">
+              <div className="py-2 text-2xl sm:text-3xl font-extrabold text-brand-ink font-display border-b-2 border-dashed border-accent-500/40 inline-block px-8">
                 {studentDisplayName}
               </div>
 

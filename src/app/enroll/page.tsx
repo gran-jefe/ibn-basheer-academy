@@ -124,8 +124,8 @@ function EnrollContent() {
 
           {/* Heading */}
           <div className="text-center space-y-3">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-50 text-accent-800 text-xs font-bold ring-1 ring-accent-200">
-              <GraduationCap className="w-4 h-4" />
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-400/15 text-accent-700 dark:text-accent-300 text-xs font-bold ring-1 ring-accent-400/30">
+              <GraduationCap className="w-4 h-4 text-accent-600 dark:text-accent-400" />
               <span>{isAr ? 'الالتحاق الأكاديمي المعتمد ١٤٤٨هـ' : 'Academic Admissions Open 1448 AH'}</span>
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-ink font-display tracking-tight">
@@ -157,9 +157,9 @@ function EnrollContent() {
               </div>
 
               {/* Direct WhatsApp Action */}
-              <div className="p-6 rounded-2xl bg-brand-50/70 border border-brand-200 text-start space-y-4">
+              <div className="p-6 rounded-2xl bg-brand-tint/60 border border-brand-ring text-start space-y-4">
                 <div className="flex items-center gap-2 text-xs font-bold text-brand-ink uppercase tracking-wider">
-                  <MessageCircle className="w-4 h-4 text-brand-700" />
+                  <MessageCircle className="w-4 h-4 text-brand-ink" />
                   <span>{isAr ? 'الخطوة التالية — تأكيد الرسوم على واتساب:' : 'Final Step — Confirm Tuition on WhatsApp:'}</span>
                 </div>
                 <p className="text-xs sm:text-sm text-fg-muted leading-relaxed">
@@ -218,22 +218,26 @@ function EnrollContent() {
                           key={lvl.id}
                           type="button"
                           onClick={() => setSelectedLevelId(lvl.id)}
-                          className={`p-4 rounded-2xl text-start ring-1 transition-all flex flex-col justify-between gap-2 ${
+                          className={`p-4 rounded-2xl text-start ring-1 transition-all flex flex-col justify-between gap-2.5 ${
                             selected
-                              ? 'bg-brand-50/70 ring-2 ring-brand-700 text-brand-ink shadow-xs'
+                              ? 'bg-brand-tint ring-2 ring-brand-500 shadow-sm'
                               : 'bg-surface hover:bg-surface-2 ring-line text-fg'
                           }`}
                         >
                           <div className="flex items-center justify-between w-full">
-                            <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-surface-2 text-fg-subtle">
+                            <span className={`text-xs font-bold px-2.5 py-0.5 rounded-md ${
+                              selected
+                                ? 'bg-brand-ink/15 text-brand-ink ring-1 ring-brand-ink/30'
+                                : 'bg-surface-2 text-fg-subtle ring-1 ring-line/50'
+                            }`}>
                               {isAr ? `المرحلة ${lvl.stage}` : `Stage ${lvl.stage}`}
                             </span>
-                            <span className="text-[11px] font-semibold text-fg-subtle">
+                            <span className={`text-[11px] font-semibold ${selected ? 'text-brand-ink' : 'text-fg-subtle'}`}>
                               {isAr ? lvl.durationAr : lvl.durationEn}
                             </span>
                           </div>
                           <div>
-                            <h3 className="text-sm font-extrabold text-fg mt-1">
+                            <h3 className={`text-sm font-extrabold mt-1.5 ${selected ? 'text-brand-ink' : 'text-fg'}`}>
                               {isAr ? lvl.titleAr : lvl.titleEn}
                             </h3>
                             <p className="text-xs text-fg-muted line-clamp-2 mt-1">

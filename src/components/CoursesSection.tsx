@@ -132,8 +132,8 @@ export const CoursesSection: React.FC<CoursesSectionProps> = ({
 
                   {/* Classical Text (Matn) Badge */}
                   {course.primaryTextEn && (
-                    <div className="mt-3.5 p-3 rounded-2xl bg-accent-50/70 border border-accent-200/80 text-xs">
-                      <div className="flex items-center gap-1.5 text-accent-700 font-bold uppercase tracking-wider text-[10px] mb-1">
+                    <div className="mt-3.5 p-3 rounded-2xl bg-accent-400/10 border border-accent-400/25 text-xs">
+                      <div className="flex items-center gap-1.5 text-accent-700 dark:text-accent-300 font-bold uppercase tracking-wider text-[10px] mb-1">
                         <BookmarkCheck className="w-3.5 h-3.5" />
                         <span>{isAr ? 'المتن المعتمد للدراسة' : 'Authoritative Classical Text'}</span>
                       </div>

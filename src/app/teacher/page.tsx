@@ -336,7 +336,7 @@ export default function TeacherPortalPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-line/60 pb-6">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-accent-50 text-accent-800 text-xs font-bold ring-1 ring-accent-200">
+                <span className="px-3 py-1 rounded-full bg-accent-400/15 text-accent-700 dark:text-accent-300 text-xs font-bold ring-1 ring-accent-400/30">
                   {isAr ? 'هيئة التدريس والإدارة' : 'Faculty & Admin'}
                 </span>
                 <span className="text-xs text-fg-subtle" dir="ltr">{user.email}</span>

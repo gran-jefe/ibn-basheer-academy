@@ -63,7 +63,7 @@ export const LevelsSection: React.FC<LevelsSectionProps> = ({
                   key={lvl.id}
                   className={`p-4 rounded-2xl border transition-all flex flex-col justify-between ${
                     isSpecial 
-                      ? 'bg-accent-50/50 border-accent-300 ring-1 ring-accent-400/30' 
+                      ? 'bg-accent-400/10 border-accent-400/40 ring-1 ring-accent-400/30' 
                       : 'bg-surface-2 border-line hover:border-brand-300'
                   }`}
                 >

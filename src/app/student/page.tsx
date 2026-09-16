@@ -172,7 +172,7 @@ export default function StudentPortalPage() {
 
         <main className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-md w-full p-8 rounded-3xl bg-surface ring-1 ring-line shadow-sm text-center space-y-6">
-            <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center mx-auto ring-1 ring-brand-200">
+            <div className="w-14 h-14 rounded-2xl bg-brand-tint text-brand-ink flex items-center justify-center mx-auto ring-1 ring-brand-ring">
               <BookOpen className="w-7 h-7" />
             </div>
             <div>
@@ -295,7 +295,7 @@ export default function StudentPortalPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-line/60 pb-6">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold ring-1 ring-brand-200">
+                <span className="px-3 py-1 rounded-full bg-brand-tint text-brand-ink text-xs font-bold ring-1 ring-brand-ring">
                   {isAr ? 'طالب منتظم' : 'Active Student'}
                 </span>
                 <span className="text-xs text-fg-subtle" dir="ltr">{user.email}</span>
@@ -440,7 +440,7 @@ export default function StudentPortalPage() {
                 <div className="p-6 sm:p-8 rounded-3xl bg-surface-2 ring-1 ring-line shadow-sm space-y-6 animate-fade-in">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
                     <div>
-                      <span className="text-xs font-bold text-accent-700 uppercase tracking-wider bg-accent-50 px-2.5 py-1 rounded-full ring-1 ring-accent-200">
+                      <span className="text-xs font-bold text-accent-700 dark:text-accent-300 uppercase tracking-wider bg-accent-400/15 px-2.5 py-1 rounded-full ring-1 ring-accent-400/30">
                         {isAr ? 'قاعة الدرس التفاعلية' : 'Interactive Halaqah Workbench'}
                       </span>
                       <h2 className="text-xl font-bold text-fg mt-2">
@@ -678,7 +678,7 @@ export default function StudentPortalPage() {
 
               {/* Streaming Audio Player Bar */}
               {playingMaterial && (
-                <div className="p-5 rounded-3xl bg-brand-50/80 border border-brand-200 shadow-sm space-y-3 animate-fade-in">
+                <div className="p-5 rounded-3xl bg-brand-tint/70 border border-brand-ring shadow-sm space-y-3 animate-fade-in">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="w-10 h-10 rounded-2xl bg-brand-700 text-white flex items-center justify-center shrink-0 shadow-xs">
@@ -905,7 +905,7 @@ export default function StudentPortalPage() {
               <div className="p-6 sm:p-8 rounded-3xl bg-surface ring-1 ring-line shadow-xs space-y-5">
                 <div className="flex items-center justify-between border-b border-line pb-4">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-accent-700 bg-accent-50 px-3 py-1 rounded-full ring-1 ring-accent-200">
+                    <span className="text-xs font-bold uppercase tracking-wider text-accent-700 dark:text-accent-300 bg-accent-400/15 px-3 py-1 rounded-full ring-1 ring-accent-400/30">
                       {isAr ? 'التكليف الأسبوعي للتلاوة' : 'Weekly Recitation Assessment'}
                     </span>
                     <h3 className="text-lg sm:text-xl font-bold text-fg mt-2">
@@ -921,7 +921,7 @@ export default function StudentPortalPage() {
                 </div>
 
                 {/* Pronunciation Target Checklist */}
-                <div className="p-4 rounded-2xl bg-brand-50/50 border border-brand-200 text-xs">
+                <div className="p-4 rounded-2xl bg-brand-tint/50 border border-brand-ring text-xs">
                   <span className="font-bold text-brand-ink uppercase tracking-wider block mb-2">
                     {isAr ? 'نقاط التقييم الصوتي المستهدفة:' : 'Tajweed Evaluation Checklist:'}
                   </span>
