@@ -122,16 +122,21 @@ export interface Testimonial {
 
 export interface TuitionPlan {
   id: string;
-  levelId: string;
+  category: 'student' | 'working-class';
   titleAr: string;
   titleEn: string;
   taglineAr: string;
   taglineEn: string;
-  termFee: string;
+  monthlyFee: string;
+  monthlyFeeNumber: number;
   billingPeriodAr: string;
   billingPeriodEn: string;
   featuresAr: string[];
   featuresEn: string[];
+  scheduleTrackAr: string;
+  scheduleTrackEn: string;
+  badgeAr?: string;
+  badgeEn?: string;
   isPopular?: boolean;
 }
 
@@ -804,81 +809,69 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const TUITION_PLANS: TuitionPlan[] = [
   {
-    id: 'plan-tamheediy',
-    levelId: 'tamheediy',
-    titleAr: 'المستوى التمهيدي (التأسيسي)',
-    titleEn: 'Preparatory Foundation (Tamheediy)',
-    taglineAr: 'للمبتدئين والناشئة — تأسيس الحروف وضبط مخارج التجويد',
-    taglineEn: 'For beginners and youth building authentic Arabic and Tajwīd foundations',
-    termFee: '₦15,000 / $25',
-    billingPeriodAr: 'لكل فصل دراسي (٣ أشهر)',
-    billingPeriodEn: 'Per Academic Term (3 Months)',
+    id: 'plan-student',
+    category: 'student',
+    titleAr: 'خطة الطلاب والناشئة (Students Plan)',
+    titleEn: 'Student Track (Full-Time / Youth)',
+    taglineAr: 'للطلاب النظاميين، طلبة المدارس والجامعات والناشئة المتفرغين',
+    taglineEn: 'For school pupils, university undergraduates, and full-time regular youth learners',
+    monthlyFee: '₦20,000',
+    monthlyFeeNumber: 20000,
+    billingPeriodAr: 'شهرياً (لكل شهر دراسي)',
+    billingPeriodEn: 'Monthly (Per calendar month)',
     featuresAr: [
-      'حصتان تفاعليتان أسبوعياً مع المشرفين المباشرين',
-      'حلقات صغيرة لا تتعدى ١٢ طالباً لضمان التسميع الشخصي',
-      'كتب ومذكرات القاعدة النورانية والتجويد بصيغة PDF مجاناً',
-      'وصول كامل للتسجيلات الصفية وبوابة الطالب الإلكترونية',
-      'تقرير تقدم دوري يرسل لأولياء الأمور نهاية كل شهر'
+      'فصول تفاعلية حية ومنتظمة تتناسب مع جداول المدارس والجامعات',
+      'حلقات دراسية صغيرة لضمان التسميع الشفهي الفردي والمتابعة الدقيقة',
+      'كتب ومقررات ومذكرات الشروح بصيغة PDF مجاناً',
+      'وصول كامل للتسجيلات الصفية وبوابة الطالب الإلكترونية على مدار الساعة',
+      'تقييمات واختبارات دورية وتقرير متابعة شهري يُرسل لولي الأمر',
+      'شهادة إتمام معتمدة عند إكمال كل مقرر أو مرحلة دراسية'
     ],
     featuresEn: [
-      '2 Interactive live circles per week with direct faculty',
-      'Small halaqah size (max 12 students) ensuring 1-on-1 recitation',
-      'Free digital workbooks and Noorani Qa’idah study notes (PDF)',
-      'Full access to session video archives and student portal',
-      'Monthly academic progress and attendance reports for parents'
+      'Interactive live classes scheduled to align with school & university hours',
+      'Small halaqah cohorts ensuring individualized oral recitation & drill feedback',
+      'Free digital workbooks, textbooks, and summary PDFs provided',
+      '24/7 unlimited access to class video recordings & student portal workbench',
+      'Periodic monthly assessments and progress tracking reports for parents',
+      'Verified Certificate of Completion upon finishing each module or stage'
     ],
-    isPopular: false
-  },
-  {
-    id: 'plan-ibtidaiyya',
-    levelId: 'ibtidaiyya',
-    titleAr: 'المرحلة الابتدائية الشرعية',
-    titleEn: 'Primary Shari’ah (Ibtidā’iyya)',
-    taglineAr: 'البرنامج الأكثر طلباً — دراسة النحو والفقه والعقيدة من المتون',
-    taglineEn: 'Most popular program — Core Arabic grammar, jurisprudence and creed',
-    termFee: '₦20,000 / $35',
-    billingPeriodAr: 'لكل فصل دراسي (٣ أشهر)',
-    billingPeriodEn: 'Per Academic Term (3 Months)',
-    featuresAr: [
-      '٣ حصص أسبوعية تشمل النحو، الفقه الميسر، والعقيدة',
-      'دراسة متني الآجرومية في النحو والأصول الثلاثة',
-      'تطبيقات إعرابية وتدريبات شفهية وتصحيح واجبات أسبوعي',
-      'اختبارات تقييمية نصف فصلية ونهائية مع درجات رسمية',
-      'شهادة اجتياز معتمدة وسجل أكاديمي موثق عند إكمال المرحلة'
-    ],
-    featuresEn: [
-      '3 Live weekly sessions covering Grammar, Fiqh, and Aqeedah',
-      'Structured study of Al-Ajrūmiyyah and Al-Uṣūl ath-Thalāthah',
-      'Weekly practical grammatical parsing (I’rāb) & homework grading',
-      'Mid-term and final written/oral assessments with transcript',
-      'Verified Certificate of Completion upon finishing the stage'
-    ],
+    scheduleTrackAr: 'مسار عطلة نهاية الأسبوع (السبت والأحد) ومسارات بعد الظهر',
+    scheduleTrackEn: 'Weekend Sessions (Sat & Sun) & Late Afternoon cohorts',
+    badgeAr: 'الأكثر إقبالاً للطلاب',
+    badgeEn: 'Student Standard',
     isPopular: true
   },
   {
-    id: 'plan-advanced',
-    levelId: 'thanawiyya',
-    titleAr: 'المرحلة الثانوية والتخصصية',
-    titleEn: 'Advanced & Specialized Seminary',
-    taglineAr: 'للدارسين المتقدمين — الفرائض، مصطلح الحديث، والقراءات',
-    taglineEn: 'For serious seekers — Inheritance math, Hadith science & Advanced Tajwīd',
-    termFee: '₦25,000 / $40',
-    billingPeriodAr: 'لكل فصل دراسي (٣ أشهر)',
-    billingPeriodEn: 'Per Academic Term (3 Months)',
+    id: 'plan-working-class',
+    category: 'working-class',
+    titleAr: 'خطة المهنيين والعاملين (Working Class Plan)',
+    titleEn: 'Working Professionals Track',
+    taglineAr: 'للموظفين، رواد الأعمال، وأصحاب المهن وأوقات العمل المزدحمة',
+    taglineEn: 'For corporate executives, healthcare workers, entrepreneurs, and busy professionals',
+    monthlyFee: '₦30,000',
+    monthlyFeeNumber: 30000,
+    billingPeriodAr: 'شهرياً (لكل شهر دراسي)',
+    billingPeriodEn: 'Monthly (Per calendar month)',
     featuresAr: [
-      'حلقات نقاش متعمقة في علم الفرائض وقواعد المواريث',
-      'شروح موسعة على متون الحديث ومصطلح المحدثين',
-      'إشراف وإجازات بالسند المتصل للطلبة المتميزين',
-      'ساعات مكتبية مفتوحة للمراجعة والمناقشة مع الشيخ',
-      'سجل درجات أكاديمي رسمي متاح للطباعة من البوابة'
+      'مواعيد مرنة في الأمسيات الهادئة وعطلة نهاية الأسبوع دون تعارض مع ساعات العمل',
+      'أولوية حجز الجلسات الفردية وتصحيح التلاوات مع المشرفين مباشرة',
+      'وصول دائم وشامل لأرشيف المحاضرات المسجلة والمذكرات المتقدمة',
+      'متابعة شفهية مرنة للواجبات عبر التسميع الصوتي في البوابة وواتساب',
+      'ساعات مكتبية مفتوحة للمراجعة والمناقشة الفقهية واللغوية مع الشيخ',
+      'إجازات مسندة وسجل درجات أكاديمي رسمي موثق'
     ],
     featuresEn: [
-      'Advanced seminar halaqahs in Islamic Inheritance law (Farā’iḍ)',
-      'In-depth study of Hadith verification & classical commentaries',
-      'Qualification pathway for certified chains of transmission (Isnād)',
-      'Direct faculty office hours for consultation and recitation',
-      'Official verifiable digital academic transcript'
+      'Flexible quiet evening slots and weekend intensives designed around busy work schedules',
+      'Priority 1-on-1 recitation verification and personalized feedback from senior faculty',
+      'Permanent lifetime access to high-definition lecture archives and course materials',
+      'Flexible audio homework submissions via student portal and direct WhatsApp feedback',
+      'Direct faculty office hours for consultation, jurisprudence inquiries, and guidance',
+      'Formal academic transcript and qualification pathway for authentic Isnād licensures'
     ],
+    scheduleTrackAr: 'أمسيات هادئة بعد أوقات الدوام وعطل نهاية الأسبوع المكثفة',
+    scheduleTrackEn: 'Quiet Mid-Week Evenings (Post-work) & Dedicated Weekend Intensives',
+    badgeAr: 'مخصص للمهنيين',
+    badgeEn: 'Executive & Professional',
     isPopular: false
   }
 ];
@@ -895,10 +888,10 @@ export const ADMISSION_FAQS: AdmissionFAQ[] = [
   {
     id: 'faq-2',
     category: 'tuition',
-    questionAr: 'كيف يتم سداد الرسوم الدراسية وهل تتوفر خصومات للعائلات؟',
-    questionEn: 'How do I pay tuition fees, and are family discounts available?',
-    answerAr: 'حرصاً على التيسير، يتم سداد الرسوم فصلياً عبر التحويل البنكي المباشر مع تأكيد الإيصال فوراً عبر واتساب مع أمين الصندوق. نقدم خصماً عائلياً بنسبة ١٥٪ للأخ الثاني و٢٥٪ للطفل الثالث المسجلين من نفس الأسرة.',
-    answerEn: 'Tuition is billed per term and processed via transparent bank transfer. Simply confirm your transfer slip via WhatsApp with the academy bursar. We proudly offer a 15% discount for the second child and 25% for the third child enrolled from the same household.'
+    questionAr: 'كم تبلغ الرسوم الدراسية الشهرية وكيف يتم السداد؟',
+    questionEn: 'What are the monthly tuition fees, and how is payment completed?',
+    answerAr: 'تبلغ الرسوم الشهرية المعتمدة: ٢٠,٠٠٠ نايرا شهرياً للطلاب والناشئة، و٣٠,٠٠٠ نايرا شهرياً للمهنيين والعاملين. يتم السداد شهرياً عبر التحويل البنكي المباشر مع تأكيد فوري عبر واتساب مع أمين صندوق الأكاديمية. كما نوفر خصماً عائلياً بنسبة ١٥٪ للأخ الثاني و٢٥٪ للطفل الثالث من نفس الأسرة.',
+    answerEn: 'Tuition is billed monthly: ₦20,000 per month for Students & Youth, and ₦30,000 per month for Working Professionals. Payment is made monthly via transparent direct bank transfer with immediate slip confirmation on WhatsApp. We also offer family discounts (15% for 2nd sibling, 25% for 3rd sibling).'
   },
   {
     id: 'faq-3',

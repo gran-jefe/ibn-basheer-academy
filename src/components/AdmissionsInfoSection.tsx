@@ -41,9 +41,9 @@ export const AdmissionsInfoSection: React.FC<AdmissionsInfoSectionProps> = ({ la
       step: '02',
       icon: CreditCard,
       titleAr: 'سداد الرسوم وتأكيد الواتساب',
-      titleEn: 'Tuition Transfer & WhatsApp Notice',
-      descAr: 'حوّل الرسوم فصلياً وأرسل إشعار التحويل المباشر مع أمين صندوق الأكاديمية.',
-      descEn: 'Transfer term tuition and confirm your payment slip directly via WhatsApp.',
+      titleEn: 'Monthly Tuition & WhatsApp Notice',
+      descAr: 'حوّل الرسوم شهرياً (٢٠ ألف للطلاب / ٣٠ ألف للمهنيين) وأرسل إشعار التحويل المباشر مع أمين الصندوق.',
+      descEn: 'Transfer monthly tuition (₦20,000 for students / ₦30,000 for working class) and confirm your slip on WhatsApp.',
     },
     {
       step: '03',
@@ -133,47 +133,62 @@ export const AdmissionsInfoSection: React.FC<AdmissionsInfoSectionProps> = ({ la
         <div className="mb-20">
           <div className="text-center mb-10">
             <h3 className="text-2xl font-extrabold text-fg font-display">
-              {isAr ? 'جدول الرسوم الفصلية المعتمدة' : 'Official Term Tuition Plans'}
+              {isAr ? 'جدول الرسوم الشهرية المعتمدة' : 'Official Monthly Tuition Plans'}
             </h3>
-            <p className="text-xs sm:text-sm text-fg-muted mt-1">
+            <p className="text-xs sm:text-sm text-fg-muted mt-1 max-w-xl mx-auto">
               {isAr
-                ? 'تشمل الرسوم كافة الحصص الحية، الكتب والمذكرات الرقمية، والاختبارات الدورية.'
-                : 'Includes all live halaqahs, digital study materials, and formal examination grading.'}
+                ? 'رسوم شهرية ميسرة وواضحة: ٢٠,٠٠٠ نايرا للطلاب والناشئة، و٣٠,٠٠٠ نايرا للمهنيين والعاملين، تشمل كافة الحصص الحية والتسجيلات والمذكرات.'
+                : 'Simple, transparent monthly pricing: ₦20,000/month for students and ₦30,000/month for working class. Includes live halaqahs, recordings, and PDF materials.'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
             {TUITION_PLANS.map((plan) => (
               <div
                 key={plan.id}
                 className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all relative ${
                   plan.isPopular
-                    ? 'bg-surface ring-2 ring-brand-500 shadow-xl lg:-translate-y-2'
+                    ? 'bg-surface ring-2 ring-brand-500 shadow-xl lg:-translate-y-1'
                     : 'bg-surface ring-1 ring-line shadow-sm hover:shadow-md'
                 }`}
               >
-                {plan.isPopular && (
-                  <div className="absolute -top-3.5 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-700 text-white text-xs font-bold shadow-md">
+                {plan.badgeEn && (
+                  <div className={`absolute -top-3.5 start-6 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold shadow-md ${
+                    plan.isPopular 
+                      ? 'bg-brand-700 text-white' 
+                      : 'bg-accent-500 text-brand-950 ring-1 ring-accent-600/30'
+                  }`}>
                     <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{isAr ? 'البرنامج الأكثر تسجيلاً' : 'Most Popular'}</span>
+                    <span>{isAr ? plan.badgeAr : plan.badgeEn}</span>
                   </div>
                 )}
 
                 <div>
-                  <h4 className="text-xl font-bold text-fg">
-                    {isAr ? plan.titleAr : plan.titleEn}
-                  </h4>
-                  <p className="text-xs text-fg-muted mt-1 min-h-[32px]">
+                  <div className="flex items-center justify-between gap-2 mt-2">
+                    <h4 className="text-xl sm:text-2xl font-bold text-fg">
+                      {isAr ? plan.titleAr : plan.titleEn}
+                    </h4>
+                  </div>
+                  <p className="text-xs text-fg-muted mt-1.5 min-h-[32px] leading-relaxed">
                     {isAr ? plan.taglineAr : plan.taglineEn}
                   </p>
 
-                  <div className="mt-6 p-4 rounded-2xl bg-surface-2 ring-1 ring-line text-center">
-                    <span className="text-3xl font-extrabold text-brand-ink font-display">
-                      {plan.termFee}
-                    </span>
-                    <p className="text-xs font-medium text-fg-muted mt-0.5">
+                  <div className="mt-6 p-5 rounded-2xl bg-surface-2 ring-1 ring-line text-center">
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className="text-3xl sm:text-4xl font-extrabold text-brand-ink font-display">
+                        {plan.monthlyFee}
+                      </span>
+                      <span className="text-xs sm:text-sm font-bold text-fg-muted">
+                        {isAr ? '/ شهرياً' : '/ month'}
+                      </span>
+                    </div>
+                    <p className="text-xs font-medium text-fg-muted mt-1">
                       {isAr ? plan.billingPeriodAr : plan.billingPeriodEn}
                     </p>
+                    <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-tint text-brand-ink text-[11px] font-bold ring-1 ring-brand-ring">
+                      <Clock className="w-3 h-3" aria-hidden="true" />
+                      <span>{isAr ? plan.scheduleTrackAr : plan.scheduleTrackEn}</span>
+                    </div>
                   </div>
 
                   <ul className="mt-6 space-y-3">
@@ -189,26 +204,26 @@ export const AdmissionsInfoSection: React.FC<AdmissionsInfoSectionProps> = ({ la
                 <div className="mt-8 pt-6 border-t border-line space-y-3">
                   <button
                     type="button"
-                    onClick={() => router.push(`/enroll?level=${encodeURIComponent(plan.levelId)}`)}
-                    className={`w-full py-3 rounded-xl font-bold text-sm transition-colors text-center ${
+                    onClick={() => router.push(`/enroll?plan=${encodeURIComponent(plan.category)}`)}
+                    className={`w-full py-3.5 rounded-xl font-bold text-sm transition-colors text-center ${
                       plan.isPopular
                         ? 'bg-brand-700 hover:bg-brand-800 text-white shadow-md'
                         : 'bg-brand-tint hover:bg-brand-ring/30 text-brand-ink ring-1 ring-brand-ring'
                     }`}
                   >
-                    {isAr ? 'سجّل في هذا المستوى الآن' : 'Enroll in this Level'}
+                    {isAr ? `التسجيل في ${plan.titleAr}` : `Enroll in ${plan.titleEn}`}
                   </button>
 
                   <a
                     href={`${ACADEMY_INFO.contact.whatsappLink}?text=${encodeURIComponent(
-                      `Assalamu Alaykum, I am inquiring about tuition and enrollment for ${plan.titleEn}`
+                      `Assalamu Alaykum, I want to enroll in the ${plan.titleEn} (${plan.monthlyFee}/month). Please provide payment and admission details.`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-2 rounded-lg text-xs font-semibold text-fg-muted hover:text-fg flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{isAr ? 'استفسار عبر واتساب' : 'Inquire via WhatsApp'}</span>
+                    <span>{isAr ? 'تأكيد القبول وسداد الرسوم عبر واتساب' : 'Confirm via WhatsApp'}</span>
                   </a>
                 </div>
               </div>

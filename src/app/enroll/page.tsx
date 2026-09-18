@@ -15,6 +15,7 @@ function EnrollContent() {
   const searchParams = useSearchParams();
   const preLevelId = searchParams.get('level') || 'tamheediy';
   const preCourseId = searchParams.get('course') || 'tajweed';
+  const prePlanCategory = (searchParams.get('plan') as 'student' | 'working-class') || 'student';
 
   const { lang, setLang, theme, toggleTheme } = usePreferences();
   const isAr = lang === 'ar';
@@ -22,6 +23,7 @@ function EnrollContent() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [selectedPlanCategory, setSelectedPlanCategory] = useState<'student' | 'working-class'>(prePlanCategory);
   const [selectedLevelId, setSelectedLevelId] = useState(preLevelId);
   const [selectedCourseId, setSelectedCourseId] = useState(preCourseId);
   const [notes, setNotes] = useState('');
@@ -32,6 +34,9 @@ function EnrollContent() {
 
   const selectedLevel = ACADEMIC_LEVELS.find((l) => l.id === selectedLevelId);
   const selectedCourse = MAJOR_COURSES.find((c: Course) => c.id === selectedCourseId);
+  const selectedPlan = selectedPlanCategory === 'working-class' 
+    ? { titleEn: 'Working Professionals (₦30,000/month)', titleAr: 'المهنيون والعاملون (٣٠,٠٠٠ نايرا/شهرياً)', fee: '₦30,000/mo' }
+    : { titleEn: 'Student Track (₦20,000/month)', titleAr: 'الطلاب والناشئة (٢٠,٠٠٠ نايرا/شهرياً)', fee: '₦20,000/mo' };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +51,7 @@ function EnrollContent() {
           phone_number: phoneNumber,
           level_id: selectedLevelId,
           course_id: selectedCourseId,
-          notes: notes || null,
+          notes: `Plan: ${selectedPlan.titleEn}. Notes: ${notes || 'None'}`,
           status: 'pending',
           applied_at: new Date().toISOString(),
         });
@@ -70,15 +75,16 @@ function EnrollContent() {
   const generateWhatsAppMessage = () => {
     const levelName = isAr ? selectedLevel?.titleAr : selectedLevel?.titleEn;
     const courseName = isAr ? selectedCourse?.titleAr : selectedCourse?.titleEn;
+    const planName = isAr ? selectedPlan.titleAr : selectedPlan.titleEn;
 
     if (isAr) {
       return encodeURIComponent(
-        `السلام عليكم ورحمة الله وبركاته،\nأرغب في إتمام تسديد رسوم القيد في أكاديمية ابن بشير للدراسات العربية والإسلامية:\n- الاسم: ${fullName}\n- المرحلة: ${levelName}\n- المادة: ${courseName}\n- البريد: ${email}\n- الهاتف: ${phoneNumber}\nيرجى تزويدي بحساب التحويل والتأكيد.`
+        `السلام عليكم ورحمة الله وبركاته،\nأرغب في إتمام تسديد رسوم القيد في أكاديمية ابن بشير للدراسات العربية والإسلامية:\n- الاسم: ${fullName}\n- الخطة الشهرية: ${planName}\n- المرحلة: ${levelName}\n- المادة: ${courseName}\n- البريد: ${email}\n- الهاتف: ${phoneNumber}\nيرجى تزويدي بحساب التحويل البنكي وتأكيد القبول.`
       );
     }
 
     return encodeURIComponent(
-      `As-salāmu 'alaykum wa rahmatullāh,\nI have submitted an admission application for Ibn Basheer Academy:\n- Name: ${fullName}\n- Track: ${levelName}\n- Course: ${courseName}\n- Email: ${email}\n- Phone: ${phoneNumber}\nPlease advise on tuition payment details to finalize enrollment.`
+      `As-salāmu 'alaykum wa rahmatullāh,\nI have submitted an admission application for Ibn Basheer Academy:\n- Name: ${fullName}\n- Monthly Plan: ${planName}\n- Track: ${levelName}\n- Course: ${courseName}\n- Email: ${email}\n- Phone: ${phoneNumber}\nPlease provide bank transfer details to complete tuition payment.`
     );
   };
 
@@ -205,10 +211,70 @@ function EnrollContent() {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 
+                {/* Tuition Category Selection */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-bold text-fg uppercase tracking-wider">
+                    {isAr ? '١. اختر خطة الرسوم الشهرية' : '1. Select Monthly Tuition Plan'}
+                  </label>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPlanCategory('student')}
+                      className={`p-4 rounded-2xl text-start ring-1 transition-all flex flex-col justify-between gap-2.5 ${
+                        selectedPlanCategory === 'student'
+                          ? 'bg-brand-tint ring-2 ring-brand-500 shadow-sm'
+                          : 'bg-surface hover:bg-surface-2 ring-line text-fg'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-md ${
+                          selectedPlanCategory === 'student'
+                            ? 'bg-brand-ink/15 text-brand-ink ring-1 ring-brand-ink/30'
+                            : 'bg-surface-2 text-fg-subtle ring-1 ring-line/50'
+                        }`}>
+                          {isAr ? 'خطة الطلاب والناشئة' : 'Students & Youth Plan'}
+                        </span>
+                        <span className="text-sm font-extrabold text-brand-ink">
+                          ₦20,000<span className="text-[10px] font-normal text-fg-muted">{isAr ? ' / شهر' : ' / mo'}</span>
+                        </span>
+                      </div>
+                      <p className="text-xs text-fg-muted mt-1 leading-relaxed">
+                        {isAr ? 'للطلاب النظاميين وطلبة المدارس والجامعات — مسار عطلة نهاية الأسبوع وبعد الظهر.' : 'For school pupils, university students, and regular youth — weekend & afternoon cohorts.'}
+                      </p>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPlanCategory('working-class')}
+                      className={`p-4 rounded-2xl text-start ring-1 transition-all flex flex-col justify-between gap-2.5 ${
+                        selectedPlanCategory === 'working-class'
+                          ? 'bg-brand-tint ring-2 ring-brand-500 shadow-sm'
+                          : 'bg-surface hover:bg-surface-2 ring-line text-fg'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-md ${
+                          selectedPlanCategory === 'working-class'
+                            ? 'bg-brand-ink/15 text-brand-ink ring-1 ring-brand-ink/30'
+                            : 'bg-surface-2 text-fg-subtle ring-1 ring-line/50'
+                        }`}>
+                          {isAr ? 'خطة المهنيين والعاملين' : 'Working Professionals Plan'}
+                        </span>
+                        <span className="text-sm font-extrabold text-brand-ink">
+                          ₦30,000<span className="text-[10px] font-normal text-fg-muted">{isAr ? ' / شهر' : ' / mo'}</span>
+                        </span>
+                      </div>
+                      <p className="text-xs text-fg-muted mt-1 leading-relaxed">
+                        {isAr ? 'للموظفين والمهنيين وأصحاب الأعمال — أمسيات هادئة مرنة ومتابعة فردية.' : 'For corporate staff, doctors, executives, and entrepreneurs — quiet evening slots & 1-on-1 recitation.'}
+                      </p>
+                    </button>
+                  </div>
+                </div>
+
                 {/* Stage Selection */}
                 <div className="space-y-2">
                   <label className="block text-xs font-bold text-fg uppercase tracking-wider">
-                    {isAr ? '١. اختر المرحلة الدراسية' : '1. Choose Academic Track'}
+                    {isAr ? '٢. اختر المرحلة الدراسية' : '2. Choose Academic Track'}
                   </label>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {ACADEMIC_LEVELS.map((lvl) => {
@@ -253,7 +319,7 @@ function EnrollContent() {
                 {/* Primary Subject */}
                 <div className="space-y-2">
                   <label className="block text-xs font-bold text-fg uppercase tracking-wider">
-                    {isAr ? '٢. المادة الأساسية المطلوبة' : '2. Primary Desired Subject'}
+                    {isAr ? '٣. المادة الأساسية المطلوبة' : '3. Primary Desired Subject'}
                   </label>
                   <select
                     value={selectedCourseId}
@@ -271,7 +337,7 @@ function EnrollContent() {
                 {/* Personal Information */}
                 <div className="space-y-4 pt-2 border-t border-line">
                   <label className="block text-xs font-bold text-fg uppercase tracking-wider">
-                    {isAr ? '٣. بيانات الطالب' : '3. Applicant Information'}
+                    {isAr ? '٤. بيانات المتقدم للتسجيل' : '4. Applicant Information'}
                   </label>
 
                   <div>
@@ -334,12 +400,12 @@ function EnrollContent() {
                 {/* WhatsApp Notice Banner */}
                 <div className="p-4 rounded-2xl bg-surface-2 ring-1 ring-line/80 text-xs text-fg-muted space-y-1.5">
                   <span className="font-bold text-brand-ink block">
-                    {isAr ? 'ملاحظة بخصوص الرسوم والدفع:' : 'Tuition & Payment Notice:'}
+                    {isAr ? 'ملاحظة بخصوص الرسوم الشهرية وطريقة الدفع:' : 'Monthly Tuition & Payment Notice:'}
                   </span>
                   <p>
                     {isAr
-                      ? 'لا توجد بوابات دفع إلكترونية تابعة لجهات خارجية. يتم تسديد الرسوم مباشرة إلى إدارة الأكاديمية عبر الواتساب لتأكيد القبول.'
-                      : 'All tuition fees are verified directly with the academy bursary on WhatsApp. No third-party card processors required.'}
+                      ? 'الرسوم الدراسية الشهرية هي: ٢٠,٠٠٠ نايرا للطلاب والناشئة، و٣٠,٠٠٠ نايرا للمهنيين والعاملين. يتم تحويل الرسوم مباشرة عبر الحساب البنكي للأكاديمية وتأكيد الإيصال على واتساب.'
+                      : 'Monthly tuition is ₦20,000/month for Students & Youth and ₦30,000/month for Working Professionals. Fees are paid via direct bank transfer and confirmed with the bursary on WhatsApp.'}
                   </p>
                 </div>
 
