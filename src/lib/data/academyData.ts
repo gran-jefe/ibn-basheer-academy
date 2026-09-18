@@ -152,12 +152,12 @@ export const ACADEMY_INFO = {
   taglineAr: 'طلب العلم فريضة على كل مسلم',
   taglineEn: 'Seeking Knowledge is an Obligation upon Every Muslim',
   leadInstructor: {
-    nameAr: 'الشيخ أبو عبد الله المبارك',
-    nameEn: 'Ustaz Abu Abdullah Al-Mubaarak',
-    roleAr: 'المشرف العام والمدرس الرئيسي',
-    roleEn: 'Lead Instructor & Academy Director',
-    bioAr: 'باحث ومدرس في العلوم الشرعية واللغة العربية، مشرف على العديد من الحلقات العلمية والبرامج التعليمية.',
-    bioEn: 'Scholar and instructor in Islamic Sciences and the Arabic Language, supervising numerous learning circles and educational programs.'
+    nameAr: 'الشيخ نعمان بن بشير (أبو عبد الله)',
+    nameEn: 'Ustadh Numon Basheer (Abu Abdullah)',
+    roleAr: 'مؤسس حلقة ابن بشير والمشرف العام',
+    roleEn: 'Founder of Ibn Basheer Circle & Academy Director',
+    bioAr: 'مؤسس حلقة ابن بشير لتعليم العربية والقرآن، خريج معهد اللغة العربية بنيجيريا (Mahdul Arobyy Naijiry) وجامعة إبادن (University of Ibadan) وطالب دراسات عليا (M.Sc) بها. حاصل على دبلوم في الشريعة ودبلوم في العقيدة. معلّم متمرّس للعربية والقرآن حضورياً وعبر الإنترنت داخل نيجيريا وخارجها، ومقرئ متقن وخطيب باللغة العربية الفصحى.',
+    bioEn: 'Founder of Ibn Basheer Circle of Arabic and Qur’an Learning. Graduate of Mahdul Arobyy Naijiry and University of Ibadan, currently pursuing M.Sc at University of Ibadan. Holds Diplomas in Sharia and Aqeedah. Seasoned Arabic and Quran teacher physically and online, both home and abroad. A versatile Qur’an reciter and fluent Arabic speaker.'
   },
   contact: {
     whatsappNumber: '070 8168 0864',
@@ -616,34 +616,40 @@ export const MOCK_ANNOUNCEMENTS: Announcement[] = [
 
 export const FACULTY_MEMBERS: FacultyMember[] = [
   {
-    id: 'ustaz-mubaarak',
-    nameAr: 'الشيخ أبو عبد الله المبارك',
-    nameEn: 'Ustaz Abu Abdullah Al-Mubaarak',
-    titleAr: 'المشرف العام والمدرس الأول',
-    titleEn: 'Academy Director & Senior Scholar',
-    roleAr: 'أستاذ التجويد والقراءات والفقه المقارن',
-    roleEn: 'Chair of Tajwīd, Qirā’āt & Comparative Fiqh',
-    bioAr: 'فقيه ومقرئ متصل السند، كرس أكثر من عقد ونصف في تدريس المتون الشرعية وتحفيظ القرآن بروايتي حفص وشعبة. قاد المئات من طلبة العلم نحو نيل الإجازات العلمية المعتمدة وتأسيس الحلقات العلمية.',
-    bioEn: 'Senior jurist and certified reciter with connected chains of transmission (Isnād). Over 15 years dedicated to teaching classical Islamic texts, Quranic recitation, and guiding students to formal academic mastery and certification.',
-    specializationAr: 'علوم القرآن، القراءات المتواترة، الفقه وأصوله',
-    specializationEn: 'Quranic Sciences, Recitation Isnād, Classical Jurisprudence',
+    id: 'ustadh-numon-basheer',
+    nameAr: 'الشيخ نعمان بن بشير (أبو عبد الله)',
+    nameEn: 'Ustadh Numon Basheer (Abu Abdullah)',
+    titleAr: 'مؤسس حلقة ابن بشير والمشرف العام',
+    titleEn: 'Founder of Ibn Basheer Circle & Academy Director',
+    roleAr: 'أستاذ القرآن واللغة العربية والشريعة',
+    roleEn: 'Lead Scholar of Qur’an, Arabic & Shari’ah Studies',
+    bioAr: 'مؤسس حلقة ابن بشير لتعليم العربية والقرآن. معلّم متمرس للعربية والقرآن الكريم حضورياً وعبر الإنترنت داخل الوطن وخارجه. مقرئ متمكن وخطيب مفوّه، كرس جهوده لمساعدة الطلاب على الانتقال من مجرد القراءة والتلاوة إلى الفهم العميق للغة التنزيل وتدبر رسالة الله سبحانه وتعالى عبر مناهج تعليمية منظمة وتفاعلية وعملية.',
+    bioEn: 'Founder of Ibn Basheer Circle of Arabic and Qur’an Learning. A seasoned Arabic and Qur’an teacher physically and online, both home and abroad. A versatile Qur’an reciter and fluent Arabic speaker whose mission is to help students move beyond recitation to understanding the language of the Qur’an through a structured, practical, and engaging learning experience.',
+    specializationAr: 'علوم القرآن والتجويد، اللغة العربية، الشريعة والعقيدة',
+    specializationEn: 'Quranic Sciences & Tajweed, Arabic Fluency, Sharia & Aqeedah',
     credentialsAr: [
-      'إجازة مسندة برواية حفص عن عاصم من طريق الشاطبية',
-      'إجازة في شرح ودراسة تحفة الأطفال والمقدمة الجزرية',
-      'إشراف وتدريس لأكثر من ٤٥٠ طالب علم حول العالم',
-      'أستاذ كرسي الفقه والفرائض بأكاديمية ابن بشير'
+      'خريج معهد اللغة العربية بنيجيريا (Mahdul Arobyy Naijiry)',
+      'خريج جامعة إبادن (University of Ibadan)',
+      'طالب دراسات عليا (M.Sc) بجامعة إبادن (University of Ibadan)',
+      'حاصل على دبلوم في الشريعة الإسلامية (Diploma in Sharia)',
+      'حاصل على دبلوم في العقيدة الإسلامية (Diploma in Aqeedah)',
+      'معلّم متمرس حضورياً وعبر الفصول الافتراضية محلياً ودولياً',
+      'مقرئ متقن للقرآن الكريم ومتحدث بالفصحى'
     ],
     credentialsEn: [
-      'Authenticated Isnād in Hafs ‘an ‘Asim via the Shatibiyyah pathway',
-      'Certified Licensure in Tuḥfat al-Aṭfāl & Al-Muqaddimah Al-Jazariyyah',
-      '15+ Years Direct Seminary Teaching across West Africa & Diaspora',
-      'Supervising Dean of Jurisprudence & Inheritance Studies'
+      'Graduate of Mahdul Arobyy Naijiry',
+      'Graduate of University of Ibadan',
+      'Current Postgraduate Scholar (M.Sc) at University of Ibadan',
+      'Diploma in Sharia',
+      'Diploma in Aqeedah',
+      'Seasoned Arabic & Quran Teacher physically and online (home and abroad)',
+      'Versatile Qur’an Reciter and Fluent Arabic Speaker'
     ],
-    sanadCertificationAr: 'إسناد متصل إلى النبي ﷺ في تلاوة القرآن الكريم وتدريس المتون',
-    sanadCertificationEn: 'Connected Isnād to the Prophet ﷺ in Quranic recitation and classical matn transmission',
-    initials: 'AM',
+    sanadCertificationAr: 'إتقان مسند في التلاوة والتجويد، وخبرة تربوية واسعة في البرامج اليومية والداخلية (Day & Boarding)',
+    sanadCertificationEn: 'Supervising Day & Boarding Programs, Intensive 3-Month Courses & Live Virtual Halaqahs',
+    initials: 'NB',
     accentColor: 'from-amber-600 to-amber-800',
-    coursesTaught: ['tajweed', 'aqeedah', 'fiqh', 'faraid']
+    coursesTaught: ['tajweed', 'arabic', 'aqeedah', 'fiqh', 'faraid']
   },
   {
     id: 'dr-sulaiman-bukhari',

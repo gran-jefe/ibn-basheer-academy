@@ -11,7 +11,7 @@
 UPDATE public.profiles
 SET 
   role = 'teacher',
-  full_name = 'Ustaz Abu Abdullah Al-Mubaarak',
+  full_name = 'Ustadh Numon Basheer (Abu Abdullah)',
   updated_at = NOW()
 WHERE email = 'instructor@example.com';
 

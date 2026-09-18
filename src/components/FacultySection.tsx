@@ -138,7 +138,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({ lang }) => {
 
               <div>
                 <h5 className="text-xs font-bold uppercase tracking-wider text-fg mb-3">
-                  {isAr ? 'الإجازات العلمية والخبرات' : 'Key Credentials & Certifications'}
+                  {isAr ? 'المؤهلات العلمية والخبرات' : 'Academic Qualifications & Credentials'}
                 </h5>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(isAr ? activeFaculty.credentialsAr : activeFaculty.credentialsEn).map((cred, i) => (
@@ -154,6 +154,63 @@ export const FacultySection: React.FC<FacultySectionProps> = ({ lang }) => {
                   ))}
                 </ul>
               </div>
+
+              {/* Day & Boarding Program Callout (from official academy poster) */}
+              {activeFaculty.id === 'ustadh-numon-basheer' && (
+                <div className="rounded-2xl bg-surface-2 ring-1 ring-line p-5 space-y-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-line">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-accent-600 dark:text-accent-400">
+                        {isAr ? 'برامج الأكاديمية الرسمية' : 'Academy Study Modes'}
+                      </span>
+                      <h5 className="text-sm font-extrabold text-fg mt-0.5">
+                        {isAr ? 'برامج يومية وبرامج داخلية (Day & Boarding Programs)' : 'Day & Boarding Programs Available'}
+                      </h5>
+                    </div>
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-brand-tint text-brand-ink text-xs font-bold ring-1 ring-brand-ring">
+                      {isAr ? 'دورة مكثفة ٣ أشهر' : '3-Month Intensive Track'}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="p-3.5 rounded-xl bg-surface ring-1 ring-line">
+                      <p className="text-xs font-bold text-fg">
+                        ☀️ {isAr ? 'البرنامج النهاري (Day Program)' : 'Day Program'}
+                      </p>
+                      <p className="text-[11px] text-fg-muted mt-1 leading-relaxed">
+                        {isAr
+                          ? 'تعليم نوعي وتأسيس رصين خلال ساعات النهار.'
+                          : 'Quality structured learning during daylight hours.'}
+                      </p>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-surface ring-1 ring-line">
+                      <p className="text-xs font-bold text-fg">
+                        🛏️ {isAr ? 'البرنامج الداخلي (Boarding Program)' : 'Boarding Program'}
+                      </p>
+                      <p className="text-[11px] text-fg-muted mt-1 leading-relaxed">
+                        {isAr
+                          ? 'معايشة كاملة في بيئة إسلامية وتميز أكاديمي متواصل.'
+                          : 'Full immersion in Islamic character and academic excellence.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mission Callout */}
+                  <div className="p-3.5 rounded-xl bg-brand-tint ring-1 ring-brand-ring flex items-start gap-3">
+                    <span className="text-xl shrink-0" aria-hidden="true">🎯</span>
+                    <div>
+                      <p className="text-xs font-bold text-brand-ink">
+                        {isAr ? 'رسالة الشيخ نعمان بن بشير' : 'His Mission'}
+                      </p>
+                      <p className="text-xs text-fg leading-relaxed mt-0.5 italic">
+                        &ldquo;{isAr
+                          ? 'مساعدة الطلاب على الانتقال من مجرد التلاوة إلى فهم لغة القرآن وتدبر رسالة الله عبر تجربة تعليمية منظمة وتطبيقية وشيقة.'
+                          : 'To help students move beyond recitation to understanding the language of the Qur’an through a structured, practical and engaging learning experience.'}&rdquo;
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Consultation and Contact Links */}
               <div className="pt-6 border-t border-line flex flex-wrap items-center justify-between gap-4">
