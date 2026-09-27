@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { ACADEMY_INFO } from '@/lib/data/academyData';
 import type { Lang, Theme } from '@/lib/usePreferences';
+import { AcademyLogo } from '@/components/ui/AcademyLogo';
 
 import type { UserProfile } from '@/lib/services/authService';
 
@@ -65,11 +66,9 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Wordmark */}
           <a href="#main" className="flex items-center gap-3 min-w-0 group">
-            <div className="w-10 h-10 shrink-0 rounded-xl bg-accent-400 text-brand-950 flex items-center justify-center shadow-sm">
-              <BookOpen className="w-5 h-5" aria-hidden="true" />
-            </div>
+            <AcademyLogo size="sm" isAr={isAr} priority />
             <div className="min-w-0">
-              <p className="font-bold text-sm sm:text-base leading-tight truncate">
+              <p className="font-bold text-sm sm:text-base leading-tight truncate text-white">
                 {isAr ? 'أكاديمية ابن بشير' : 'Ibn Basheer Academy'}
               </p>
               <p className="text-[11px] text-brand-200 truncate hidden sm:block">

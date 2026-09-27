@@ -10,6 +10,7 @@ import {
 import { ACADEMIC_LEVELS, MAJOR_COURSES, ACADEMY_INFO, type Course } from '@/lib/data/academyData';
 import { usePreferences } from '@/lib/usePreferences';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { AcademyLogo } from '@/components/ui/AcademyLogo';
 
 function EnrollContent() {
   const searchParams = useSearchParams();
@@ -130,6 +131,9 @@ function EnrollContent() {
 
           {/* Heading */}
           <div className="text-center space-y-3">
+            <div className="flex justify-center mb-2">
+              <AcademyLogo size="lg" isAr={isAr} priority />
+            </div>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-400/15 text-accent-700 dark:text-accent-300 text-xs font-bold ring-1 ring-accent-400/30">
               <GraduationCap className="w-4 h-4 text-accent-600 dark:text-accent-400" />
               <span>{isAr ? 'الالتحاق الأكاديمي المعتمد ١٤٤٨هـ' : 'Academic Admissions Open 1448 AH'}</span>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { WifiOff, RefreshCw, Home, BookOpen, GraduationCap, ShieldAlert } from 'lucide-react';
+import { AcademyLogo } from '@/components/ui/AcademyLogo';
 
 export default function OfflinePage() {
   const [isChecking, setIsChecking] = useState(false);
@@ -50,6 +51,11 @@ export default function OfflinePage() {
 
       <div className="relative z-10 max-w-lg w-full rounded-3xl bg-surface ring-1 ring-line shadow-2xl p-8 sm:p-10">
         
+        {/* Academy Logo */}
+        <div className="flex justify-center mb-4">
+          <AcademyLogo size="lg" isAr={true} priority />
+        </div>
+
         {/* Offline Icon with breathing badge */}
         <div className="relative w-20 h-20 rounded-3xl bg-surface-2 ring-1 ring-line flex items-center justify-center mx-auto mb-6">
           <WifiOff className="w-10 h-10 text-amber-500" aria-hidden="true" />

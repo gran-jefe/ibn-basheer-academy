@@ -10,6 +10,7 @@ import {
 import { usePreferences } from '@/lib/usePreferences';
 import { signIn } from '@/lib/services/authService';
 import { ACADEMY_INFO } from '@/lib/data/academyData';
+import { AcademyLogo } from '@/components/ui/AcademyLogo';
 
 function LoginForm() {
   const router = useRouter();
@@ -94,8 +95,8 @@ function LoginForm() {
           
           {/* Logo & Seminary Header */}
           <div className="text-center space-y-3">
-            <Link href="/" className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-800 text-accent-300 shadow-md ring-1 ring-brand-700/50">
-              <BookOpen className="w-7 h-7" />
+            <Link href="/" className="inline-flex items-center justify-center group">
+              <AcademyLogo size="xl" isAr={isAr} priority />
             </Link>
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-ink tracking-tight font-display">

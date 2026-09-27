@@ -4,6 +4,7 @@ import React from 'react';
 import { ACADEMY_INFO } from '@/lib/data/academyData';
 import { ArrowUp, BookOpen, Mail, MessageCircle } from 'lucide-react';
 import type { Lang } from '@/lib/usePreferences';
+import { AcademyLogo } from '@/components/ui/AcademyLogo';
 
 interface FooterProps {
   lang: Lang;
@@ -29,10 +30,8 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
 
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent-400 text-brand-950 flex items-center justify-center">
-                <BookOpen className="w-5 h-5" aria-hidden="true" />
-              </div>
-              <p className="font-bold text-white leading-tight">
+              <AcademyLogo size="md" isAr={isAr} />
+              <p className="font-bold text-white text-base leading-tight">
                 {isAr ? 'أكاديمية ابن بشير' : 'Ibn Basheer Academy'}
               </p>
             </div>
