@@ -214,10 +214,40 @@ body {
   0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--danger) 55%, transparent) }
   100% { box-shadow: 0 0 0 8px transparent }
 }
+@keyframes ib-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+@keyframes ib-float-slow {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-14px) scale(1.02); }
+}
+@keyframes ib-glow-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(1.08); }
+}
+@keyframes ib-shimmer {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
+@keyframes ib-beam {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
 
 .animate-fade-in { animation: ib-fade-in 160ms var(--ease-out-soft) both; }
 .animate-pop-in  { animation: ib-pop-in 220ms var(--ease-out-soft) both; }
 .animate-live    { animation: ib-pulse-ring 1.6s ease-out infinite; }
+.animate-float   { animation: ib-float 5s ease-in-out infinite; }
+.animate-float-slow { animation: ib-float-slow 8s ease-in-out infinite; }
+.animate-glow    { animation: ib-glow-pulse 6s ease-in-out infinite; }
+.animate-shimmer { animation: ib-shimmer 2.5s infinite; }
+.animate-beam    { animation: ib-beam 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+/* 3D card perspective wrapper */
+.perspective-1000 {
+  perspective: 1000px;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

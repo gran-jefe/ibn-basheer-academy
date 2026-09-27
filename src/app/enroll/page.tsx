@@ -139,8 +139,8 @@ function EnrollContent() {
             </h1>
             <p className="text-sm sm:text-base text-fg-muted max-w-xl mx-auto leading-relaxed">
               {isAr
-                ? 'سجّل في برامج العلوم الشرعية واللغة العربية بإشراف الشيخ أبو عبد الله المبارك. سيتم تأكيد القيد فور استلام إيصال الرسوم عبر الواتساب.'
-                : 'Enroll in authentic classical Islamic and Arabic programs under Ustaz Abu Abdullah Al-Mubaarak. Tuition is coordinated directly via WhatsApp.'}
+                ? 'سجّل في برامج العلوم الشرعية واللغة العربية بإشراف الشيخ نعمان بن بشير (أبو عبد الله). سيتم تأكيد القيد فور استلام إيصال الرسوم عبر الواتساب.'
+                : 'Enroll in authentic classical Islamic and Arabic programs under Ustadh Numon Basheer (Abu Abdullah). Tuition is coordinated directly via WhatsApp.'}
             </p>
           </div>
 
