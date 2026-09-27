@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { PwaManager } from "@/components/pwa/PwaManager";
 
 export const metadata: Metadata = {
   title: {
@@ -7,7 +8,28 @@ export const metadata: Metadata = {
     template: "%s | Ibn Basheer Academy",
   },
   description:
-    "Virtual Islamic Institute offering structured online classes in Quran, Tajweed, Arabic Language, Fiqh, Hadith, Mustalah, Sirah, Faraid, and Akhlaq under Ustaz Abu Abdullah Al-Mubaarak.",
+    "Virtual Islamic Institute offering structured online classes in Quran, Tajweed, Arabic Language, Fiqh, Hadith, Mustalah, Sirah, Faraid, and Akhlaq under authenticated scholars.",
+  applicationName: "Ibn Basheer",
+  appleWebApp: {
+    capable: true,
+    title: "Ibn Basheer",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
+  manifest: "/manifest.webmanifest",
   keywords: [
     "Ibn Basheer Academy",
     "Islamic Studies",
@@ -15,12 +37,17 @@ export const metadata: Metadata = {
     "Arabic Language",
     "Quran Studies",
     "Virtual Islamic Institute",
+    "Online Seminary",
   ],
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f6f2" },
+    { media: "(prefers-color-scheme: light)", color: "#094236" },
     { media: "(prefers-color-scheme: dark)", color: "#0b1614" },
   ],
 };
@@ -55,6 +82,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Ibn Basheer" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -71,6 +104,7 @@ export default function RootLayout({
           Skip to content / تخطَّ إلى المحتوى
         </a>
         {children}
+        <PwaManager />
       </body>
     </html>
   );
