@@ -63,22 +63,22 @@ export default function OfflinePage() {
           <span className="absolute -top-1 -end-1 w-4 h-4 rounded-full bg-amber-500" />
         </div>
 
-        {/* Heading in Arabic & English */}
+        {/* Heading in English & Arabic */}
         <div className="space-y-1 mb-4">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-fg font-display">
-            أنت غير متصل بالإنترنت
-          </h1>
-          <p className="text-lg font-bold text-fg-muted font-display">
             You Are Currently Offline
+          </h1>
+          <p className="text-base sm:text-lg font-bold text-fg-muted font-display" dir="rtl">
+            أنت غير متصل بالإنترنت حالياً
           </p>
         </div>
 
-        <p className="text-xs sm:text-sm text-fg-muted leading-relaxed mb-6">
-          يبدو أنك فقدت الاتصال بشبكة الإنترنت. يتم حفظ المواد التي تصفحتها مسبقاً في الذاكرة المؤقتة، وسيتم إعادة الاتصال تلقائياً فور عودة الشبكة.
+        <p className="text-xs sm:text-sm text-fg-muted leading-relaxed mb-3">
+          You are currently disconnected from the internet. Pre-cached curriculum materials remain accessible. We will automatically reload your halaqah portal once your connection is restored.
         </p>
 
-        <p className="text-xs text-fg-subtle leading-relaxed mb-8">
-          You are currently disconnected from the internet. Pre-cached curriculum materials remain accessible. We will automatically reload your halaqah portal once connection is restored.
+        <p className="text-xs text-fg-subtle leading-relaxed mb-8" dir="rtl">
+          يبدو أنك فقدت الاتصال بشبكة الإنترنت. يتم حفظ المواد التي تصفحتها مسبقاً في الذاكرة المؤقتة، وسيتم إعادة الاتصال تلقائياً فور عودة الشبكة.
         </p>
 
         {/* Action Buttons */}
@@ -90,7 +90,7 @@ export default function OfflinePage() {
             className="w-full py-3.5 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
           >
             <RefreshCw className={`w-4 h-4 ${isChecking ? 'animate-spin' : ''}`} aria-hidden="true" />
-            <span>إعادة المحاولة / Check Connection</span>
+            <span>Check Connection & Retry / إعادة المحاولة</span>
           </button>
 
           <Link
@@ -98,17 +98,20 @@ export default function OfflinePage() {
             className="w-full py-3 rounded-2xl bg-surface-2 hover:bg-surface-3 ring-1 ring-line text-fg font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2"
           >
             <Home className="w-4 h-4 text-fg-muted" aria-hidden="true" />
-            <span>العودة للرئيسية / Return Home</span>
+            <span>Return Home / العودة للرئيسية</span>
           </Link>
         </div>
 
         {/* Student Offline Tips */}
         <div className="mt-8 pt-6 border-t border-line text-start">
-          <div className="flex items-center gap-2 text-xs font-bold text-brand-ink mb-2">
+          <div className="flex items-center gap-2 text-xs font-bold text-brand-ink mb-1.5">
             <BookOpen className="w-4 h-4 shrink-0" />
-            <span>إرشادات للطلاب / Note for Students:</span>
+            <span>Note for Students / إرشادات للطلاب:</span>
           </div>
           <p className="text-[11px] text-fg-muted leading-relaxed">
+            All downloaded syllabi, audio drills, and previously visited halaqah notes remain saved on your device for offline study.
+          </p>
+          <p className="text-[11px] text-fg-subtle leading-relaxed mt-1" dir="rtl">
             المتون المحفوظة والمذكرات التي قمت بتحميلها تظل متاحة على جهازك دون الحاجة لاتصال مباشر.
           </p>
         </div>
